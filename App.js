@@ -1,21 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Onboarding } from "./src/Authentication";
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
+
+const fonts = {
+    "SFPro-Text-Bold": require("./assets/fonts/SF-Pro-Bold.otf"),
+    "SFPro-Text-Semibold": require("./assets/fonts/SF-Pro-Semibold.otf"),
+    "SFPro-Text-Regular": require("./assets/fonts/SF-Pro-Regular.otf"),
+    "SFPro-Text-Light": require("./assets/fonts/SF-Pro-Light.otf"),
+};
+const AuthenticationStack = new createStackNavigator();
+
+const AuthenticationNavigator = () => {
+    return (
+        <AuthenticationStack.Navigator headerMode="none">
+            <AuthenticationStack.Screen
+                name="Onboarding"
+                component={Onboarding}
+            />
+        </AuthenticationStack.Navigator>
+    );
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    let [isLoaded] = Font.useFonts(fonts);
+    if (!isLoaded) {
+        return <AppLoading />;
+    }
+    return (
+        <NavigationContainer>
+            <AuthenticationNavigator />
+        </NavigationContainer>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
