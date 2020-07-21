@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
-import {
-    useValue,
-    interpolateColor,
-    useScrollHandler,
-} from "react-native-redash";
+import { interpolateColor, useScrollHandler } from "react-native-redash";
+import * as firebase from "firebase";
+
 import Slide, { SLIDE_HEIGHT } from "./Slide";
 import SubSlide from "./SubSlide";
 import Dot from "./Dot";
@@ -13,6 +11,15 @@ const { width, height } = Dimensions.get("window");
 const BORDER_RADIUS = 72;
 
 const Onboarding = ({ navigation }) => {
+    useEffect(() => {
+        checkIfLoggedIn();
+    }, []);
+
+    const checkIfLoggedIn = () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            user ? console.log("LoggedIn") : console.log("NotLoggedIn");
+        });
+    };
     const scrollRef = useRef();
     const { scrollHandler, x } = useScrollHandler();
 

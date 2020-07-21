@@ -5,6 +5,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Onboarding, Welcome, Login } from "./src/Authentication";
+import * as firebase from "firebase";
+import { firebaseConfig } from "./Config";
+
 const fonts = {
     "SFPro-Text-Bold": require("./assets/fonts/SF-Pro-Bold.otf"),
     "SFPro-Text-Semibold": require("./assets/fonts/SF-Pro-Semibold.otf"),
@@ -29,7 +32,11 @@ const AuthenticationNavigator = () => {
 };
 
 export default function App() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     let [isLoaded] = useFonts(fonts);
+
     if (!isLoaded) {
         return <AppLoading />;
     }
