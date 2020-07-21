@@ -1,10 +1,10 @@
 import React from "react";
+import { AppLoading } from "expo";
+import { useFonts } from "expo-font";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Onboarding, Welcome } from "./src/Authentication";
-import { AppLoading } from "expo";
-import * as Font from "expo-font";
-
+import { Onboarding, Welcome, Login } from "./src/Authentication";
 const fonts = {
     "SFPro-Text-Bold": require("./assets/fonts/SF-Pro-Bold.otf"),
     "SFPro-Text-Semibold": require("./assets/fonts/SF-Pro-Semibold.otf"),
@@ -12,6 +12,7 @@ const fonts = {
     "SFPro-Text-Medium": require("./assets/fonts/SF-Pro-Medium.otf"),
     "SFPro-Text-Light": require("./assets/fonts/SF-Pro-Light.otf"),
 };
+
 const AuthenticationStack = new createStackNavigator();
 
 const AuthenticationNavigator = () => {
@@ -22,18 +23,21 @@ const AuthenticationNavigator = () => {
                 component={Onboarding}
             />
             <AuthenticationStack.Screen name="Welcome" component={Welcome} />
+            <AuthenticationStack.Screen name="Login" component={Login} />
         </AuthenticationStack.Navigator>
     );
 };
 
 export default function App() {
-    let [isLoaded] = Font.useFonts(fonts);
+    let [isLoaded] = useFonts(fonts);
     if (!isLoaded) {
         return <AppLoading />;
     }
     return (
         <NavigationContainer>
-            <AuthenticationNavigator />
+            <SafeAreaProvider>
+                <AuthenticationNavigator />
+            </SafeAreaProvider>
         </NavigationContainer>
     );
 }

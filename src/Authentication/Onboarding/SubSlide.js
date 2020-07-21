@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Button } from "../../components";
+import { Button } from "../../Components";
 
 const SubSlide = (props) => {
     return (
