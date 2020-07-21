@@ -8,7 +8,7 @@ const SubSlide = (props) => {
             <Text style={styles.title}>{props.title}</Text>
             <Text style={styles.description}>{props.description}</Text>
             <Button
-                label={props.last ? "시작하기" : "다음"}
+                label={props.last ? "Let's get started" : "Continue"}
                 variant={props.last ? "primary" : "default"}
                 onPress={props.onPress}
             />
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         lineHeight: 30,
         marginTop: 12,
-        marginBottom: 8,
+        marginBottom: 16,
         color: "#0C0D34",
     },
     description: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         color: "#0C0D34",
         textAlign: "center",
-        marginBottom: 24,
+        marginBottom: 32,
     },
 });
 

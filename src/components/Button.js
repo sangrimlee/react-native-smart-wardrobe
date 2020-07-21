@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     label: {
-        fontFamily: "SFPro-Text-Regular",
+        fontFamily: "SFPro-Text-Medium",
         fontSize: 15,
     },
 });

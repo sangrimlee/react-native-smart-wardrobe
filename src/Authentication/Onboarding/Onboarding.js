@@ -12,38 +12,38 @@ import Dot from "./Dot";
 const { width, height } = Dimensions.get("window");
 const BORDER_RADIUS = 72;
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
     const scrollRef = useRef();
     const { scrollHandler, x } = useScrollHandler();
 
     const slides = [
         {
-            label: "Relaxed",
+            label: "Weather",
             color: "cyan",
-            title: "Destination",
+            title: "Find Your Outfits",
             description:
-                "There are many variations of passages of Lorem Ipsum available.",
+                "Confused about your outfit? Don't worry!\nFind the best outfit here!",
         },
         {
-            label: "Playful",
+            label: "Style",
             color: "red",
-            title: "Ticket Booking",
+            title: "Here it First, Wear it First",
             description:
-                "Contrary to popular belief, Lorem Ipsum is not simply random text.",
+                "Hating the clothes in your wardrobe? \nExplore hundreds of outfit ideas.",
         },
         {
-            label: "Excentric",
+            label: "Occasion",
             color: "blue",
-            title: "Enjoy Your Holiday",
+            title: "Your Style, Your Way",
             description:
-                "There are many variations of passages of Lorem Ipsum available.",
+                "Create your individual & unique style and look amazing everyday.",
         },
         {
-            label: "Funky",
+            label: "Enjoy",
             color: "skyblue",
-            title: "Hotel Booking",
+            title: "Look Good, Feel Good",
             description:
-                "But the majority have suffered alteration in some form",
+                "Discover the latest trends in fashion and explore your personality.",
         },
     ];
 
@@ -64,11 +64,11 @@ const Onboarding = () => {
                     ref={scrollRef}
                     {...scrollHandler}
                 >
-                    {slides.map(({ label }, index) => (
+                    {slides.map(({ label, picture }, index) => (
                         <Slide
                             key={index}
                             right={!!(index % 2)}
-                            {...{ label }}
+                            {...{ label, picture }}
                         />
                     ))}
                 </Animated.ScrollView>
@@ -107,6 +107,9 @@ const Onboarding = () => {
                                             x: width * (index + 1),
                                             animated: true,
                                         });
+                                    }
+                                    if (index + 1 == slides.length) {
+                                        navigation.navigate("Welcome");
                                     }
                                 }}
                                 key={index}
