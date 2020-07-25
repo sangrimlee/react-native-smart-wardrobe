@@ -1,20 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Container, CustomTextInput, Button, Checkbox } from "../../Components";
-import { Footer, LoginSchema } from "../Components";
+import { View, Text, StyleSheet } from "react-native";
+import { Container, CustomTextInput, Button } from "../../Components";
+import { Footer, SignupSchema } from "../Components";
 import { Formik } from "formik";
 
-const Login = ({ navigation }) => {
+const Signup = ({ navigation }) => {
     return (
-        <Container footer={<Footer navigation={navigation} />}>
+        <Container footer={<Footer navigation={navigation} />} right>
             <View style={styles.container}>
-                <Text style={styles.title}>Welcome back</Text>
+                <Text style={styles.title}>Create account</Text>
                 <Text style={styles.description}>
-                    Use your credentials below and lgoin to your account.
+                    Let’s us know what your name, email, and your password.
                 </Text>
                 <Formik
-                    initialValues={{ email: "", password: "", remember: false }}
-                    validationSchema={LoginSchema}
+                    initialValues={{
+                        name: "",
+                        email: "",
+                        password: "",
+                    }}
+                    validationSchema={SignupSchema}
                     onSubmit={(values) => console.log(values)}
                 >
                     {({
@@ -27,6 +31,14 @@ const Login = ({ navigation }) => {
                         touched,
                     }) => (
                         <View style={styles.container}>
+                            <CustomTextInput
+                                iconName="account-outline"
+                                placeholder="이름"
+                                onChangeText={handleChange("name")}
+                                onBlur={handleBlur("name")}
+                                touched={touched.name}
+                                error={errors.name}
+                            />
                             <CustomTextInput
                                 iconName="email-outline"
                                 placeholder="이메일"
@@ -46,42 +58,12 @@ const Login = ({ navigation }) => {
                                 touched={touched.password}
                                 error={errors.password}
                             />
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    width: 280,
-                                    marginTop: 4,
-                                    marginBottom: 48,
-                                }}
-                            >
-                                <Checkbox
-                                    label="Remember me"
-                                    checked={values.remember}
-                                    onChange={() =>
-                                        setFieldValue(
-                                            "remember",
-                                            !values.remember
-                                        )
-                                    }
-                                />
-                                <TouchableOpacity>
-                                    <Text
-                                        style={{
-                                            fontFamily: "SFPro-Text-Regular",
-                                            fontSize: 14,
-                                            color: "#FA6400",
-                                        }}
-                                    >
-                                        Forgot password?
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
+
                             <Button
                                 variant="primary"
-                                label="Let's get started"
+                                label="Create account"
                                 onPress={handleSubmit}
+                                style={{ marginTop: 24 }}
                             />
                         </View>
                     )}
@@ -115,4 +97,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default Signup;

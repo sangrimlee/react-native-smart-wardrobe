@@ -33,6 +33,7 @@ const Welcome = ({ navigation }) => {
                     />
                     <Button
                         label={"Join us, It's Free"}
+                        onPress={() => navigation.navigate("Signup")}
                         style={{ marginBottom: 16 }}
                         // onPress={props.onPress}
                     />

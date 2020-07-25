@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        marginVertical: 8,
     },
     button: {
         width: 48,
