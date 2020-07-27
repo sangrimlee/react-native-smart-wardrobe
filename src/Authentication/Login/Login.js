@@ -3,10 +3,33 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Container, CustomTextInput, Button, Checkbox } from "../../Components";
 import { Footer, LoginSchema } from "../Components";
 import { Formik } from "formik";
+import * as firebase from "firebase";
 
 const Login = ({ navigation }) => {
+    const signInWithEmail = async (values) => {
+        let { email, password } = values;
+
+        await firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log(email, password);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     return (
-        <Container footer={<Footer navigation={navigation} />}>
+        <Container
+            footer={
+                <Footer
+                    navigation={navigation}
+                    label="Don’t have an account?"
+                    btnLabel="Sign Up here"
+                    navigate="Signup"
+                />
+            }
+        >
             <View style={styles.container}>
                 <Text style={styles.title}>Welcome back</Text>
                 <Text style={styles.description}>
@@ -15,7 +38,7 @@ const Login = ({ navigation }) => {
                 <Formik
                     initialValues={{ email: "", password: "", remember: false }}
                     validationSchema={LoginSchema}
-                    onSubmit={(values) => console.log(values)}
+                    onSubmit={(values) => signInWithEmail(values)}
                 >
                     {({
                         handleChange,
@@ -66,7 +89,11 @@ const Login = ({ navigation }) => {
                                         )
                                     }
                                 />
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigation.navigate("ForgotPassword")
+                                    }
+                                >
                                     <Text
                                         style={{
                                             fontFamily: "SFPro-Text-Regular",

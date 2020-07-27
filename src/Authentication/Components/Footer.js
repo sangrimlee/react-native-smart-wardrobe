@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import SocialLogin from "./SocialLogin";
 
-const Footer = ({ navigation, signup }) => {
+const Footer = ({ navigation, navigate, label, btnLabel }) => {
     return (
         <View>
             <SocialLogin />
@@ -13,12 +13,10 @@ const Footer = ({ navigation, signup }) => {
                     justifyContent: "center",
                     marginVertical: 16,
                 }}
-                onPress={() => navigation.navigate("Signup")}
+                onPress={() => navigation.navigate(navigate)}
             >
-                <Text style={{ color: "white", marginRight: 4 }}>
-                    Don't have an account?
-                </Text>
-                <Text style={{ color: "#FA6400" }}>Sign up here</Text>
+                <Text style={{ color: "white", marginRight: 4 }}>{label}</Text>
+                <Text style={{ color: "#FA6400" }}>{btnLabel}</Text>
             </TouchableOpacity>
         </View>
     );

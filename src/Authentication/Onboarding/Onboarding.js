@@ -11,15 +11,6 @@ const { width, height } = Dimensions.get("window");
 const BORDER_RADIUS = 72;
 
 const Onboarding = ({ navigation }) => {
-    useEffect(() => {
-        checkIfLoggedIn();
-    }, []);
-
-    const checkIfLoggedIn = () => {
-        firebase.auth().onAuthStateChanged((user) => {
-            user ? console.log("LoggedIn") : console.log("NotLoggedIn");
-        });
-    };
     const scrollRef = useRef();
     const { scrollHandler, x } = useScrollHandler();
 

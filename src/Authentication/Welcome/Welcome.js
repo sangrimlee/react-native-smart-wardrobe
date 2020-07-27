@@ -35,12 +35,11 @@ const Welcome = ({ navigation }) => {
                         label={"Join us, It's Free"}
                         onPress={() => navigation.navigate("Signup")}
                         style={{ marginBottom: 16 }}
-                        // onPress={props.onPress}
                     />
                     <Button
                         label={"Forgot password?"}
                         style={{ marginBottom: 16 }}
-                        // onPress={props.onPress}
+                        onPress={() => navigation.navigate("ForgotPassword")}
                     />
                 </View>
             </View>

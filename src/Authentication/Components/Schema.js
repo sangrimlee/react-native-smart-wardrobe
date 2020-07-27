@@ -19,3 +19,7 @@ export const SignupSchema = Yup.object().shape({
         .max(20, "Too Long!")
         .required("Required"),
 });
+
+export const ForgotPassword = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Required"),
+});

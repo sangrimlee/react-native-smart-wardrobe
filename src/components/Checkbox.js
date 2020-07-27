@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { MaterialIcons as Icon } from "@expo/vector-icons";
 
-const Checkbox = ({ label }) => {
-    const [checked, setChecked] = useState(false);
+const Checkbox = ({ label, onChange, checked }) => {
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={() => setChecked(!checked)}
-        >
+        <TouchableOpacity style={styles.container} onPress={() => onChange()}>
             <Icon
                 name={checked ? "check-box" : "check-box-outline-blank"}
                 color="#FA6400"

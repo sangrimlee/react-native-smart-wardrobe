@@ -1,65 +1,52 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Container, CustomTextInput, Button } from "../../Components";
-import { Footer, SignupSchema } from "../Components";
+import { Footer, ForgotPasswordSchema } from "../Components";
 import { Formik } from "formik";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as firebase from "firebase";
-
-const Signup = ({ navigation }) => {
-    const signUpWithEmail = async (values) => {
-        let { email, password } = values;
-        await firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {})
-            .catch((error) => {
-                alert(error);
-            });
+const ForgotPassword = ({ navigation }) => {
+    const passwordReset = async (values) => {
+        let { email } = values;
+        try {
+            await firebase.auth().sendPasswordResetEmail(email);
+            navigation.navigate("Login");
+        } catch (error) {
+            console.log(error);
+        }
     };
+
     return (
         <Container
             footer={
                 <Footer
                     navigation={navigation}
-                    label="Already have an account?"
-                    btnLabel="Login here"
-                    navigate="Login"
+                    label="Don't work?"
+                    btnLabel="Try another way"
+                    navigate=""
                 />
             }
-            right
+            center
         >
             <View style={styles.container}>
-                <Text style={styles.title}>Create account</Text>
+                <Text style={styles.title}>Forgot password?</Text>
                 <Text style={styles.description}>
-                    Let’s us know what your name, email, and your password.
+                    Enter the email associated with your account.{" "}
                 </Text>
                 <Formik
-                    initialValues={{
-                        name: "",
-                        email: "",
-                        password: "",
-                    }}
-                    validationSchema={SignupSchema}
-                    onSubmit={(values) => signUpWithEmail(values)}
+                    initialValues={{ email: "" }}
+                    validationSchema={ForgotPasswordSchema}
+                    onSubmit={(values) => passwordReset(values)}
                 >
                     {({
                         handleChange,
                         handleBlur,
                         handleSubmit,
-                        setFieldValue,
                         values,
                         errors,
                         touched,
                     }) => (
                         <View style={styles.container}>
-                            <CustomTextInput
-                                iconName="account-outline"
-                                placeholder="이름"
-                                onChangeText={handleChange("name")}
-                                onBlur={handleBlur("name")}
-                                touched={touched.name}
-                                error={errors.name}
-                            />
                             <CustomTextInput
                                 iconName="email-outline"
                                 placeholder="이메일"
@@ -69,20 +56,9 @@ const Signup = ({ navigation }) => {
                                 touched={touched.email}
                                 error={errors.email}
                             />
-                            <CustomTextInput
-                                iconName="lock-outline"
-                                placeholder="비밀번호"
-                                secureTextEntry={true}
-                                autoCompleteType="password"
-                                onChangeText={handleChange("password")}
-                                onBlur={handleBlur("password")}
-                                touched={touched.password}
-                                error={errors.password}
-                            />
-
                             <Button
                                 variant="primary"
-                                label="Create account"
+                                label="Reset Password"
                                 onPress={handleSubmit}
                                 style={{ marginTop: 24 }}
                             />
@@ -118,4 +94,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Signup;
+export default ForgotPassword;

@@ -6,10 +6,32 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width, height } = Dimensions.get("window");
 const aspectRatio = 1536 / 2048;
 const imageHeight = width * aspectRatio;
+const rightRadius = {
+    borderTopLeftRadius: 75,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 75,
+    borderBottomLeftRadius: 0,
+};
+const leftRadius = {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 75,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 75,
+};
+const centerRadius = {
+    borderTopLeftRadius: 75,
+    borderTopRightRadius: 75,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+};
 
-const Container = ({ children, footer }) => {
+const Container = ({ children, footer, right, center }) => {
     const insets = useSafeAreaInsets();
-
+    const borderRadius = center
+        ? centerRadius
+        : right
+        ? rightRadius
+        : leftRadius;
     return (
         <View style={styles.container}>
             <StatusBar style="light" />
@@ -18,13 +40,20 @@ const Container = ({ children, footer }) => {
                     backgroundColor: "white",
                 }}
             >
-                <View style={styles.headerContainer}>
+                <View
+                    style={{
+                        ...styles.headerContainer,
+                        borderBottomLeftRadius:
+                            borderRadius.borderBottomLeftRadius,
+                        borderBottomRightRadius:
+                            borderRadius.borderBottomRightRadius,
+                    }}
+                >
                     <Image
                         source={require("../../assets/pattern.png")}
                         style={{
                             width: width,
                             height: imageHeight,
-                            borderBottomLeftRadius: 75,
                         }}
                     />
                 </View>
@@ -38,7 +67,15 @@ const Container = ({ children, footer }) => {
                         ...StyleSheet.absoluteFillObject,
                     }}
                 />
-                <View style={styles.mainContainer}>{children}</View>
+                <View
+                    style={{
+                        ...styles.mainContainer,
+                        borderTopLeftRadius: borderRadius.borderTopLeftRadius,
+                        borderTopRightRadius: borderRadius.borderTopRightRadius,
+                    }}
+                >
+                    {children}
+                </View>
             </View>
             <View
                 style={{
@@ -60,7 +97,6 @@ const styles = StyleSheet.create({
     headerContainer: {
         overflow: "hidden",
         height: imageHeight * 0.5,
-        borderBottomLeftRadius: 75,
     },
     bodyContainer: {
         flex: 1,
@@ -69,12 +105,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "white",
         borderRadius: 75,
-        borderTopLeftRadius: 0,
         marginBottom: 24,
     },
     footerContainer: {
         backgroundColor: "#0c0d34",
-        padding: 16,
     },
 });
 

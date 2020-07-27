@@ -47,10 +47,7 @@ const SocialLogin = () => {
                 const response = await fetch(
                     `https://graph.facebook.com/me?access_token=${token}`
                 );
-                Alert.alert(
-                    "Logged in!",
-                    `Hi ${(await response.json()).name}!`
-                );
+                alert("Logged in!", `Hi ${(await response.json()).name}!`);
             } else {
                 // type === 'cancel'
             }
