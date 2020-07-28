@@ -13,7 +13,7 @@ import { AddButton } from "../Components";
 const Tab = new createBottomTabNavigator();
 
 const AddScreen = () => {
-    <View style={{ flex: 1, backgroundColor: "cyan" }}></View>;
+    return null;
 };
 const Icon = (props) => {
     return <MaterialCommunityIcons {...props} style={{ marginTop: 8 }} />;
