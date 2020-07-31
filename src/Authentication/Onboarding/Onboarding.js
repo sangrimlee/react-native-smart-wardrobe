@@ -2,11 +2,10 @@ import React, { useRef, useEffect } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
 import { interpolateColor, useScrollHandler } from "react-native-redash";
-import * as firebase from "firebase";
-
 import Slide, { SLIDE_HEIGHT } from "./Slide";
 import SubSlide from "./SubSlide";
 import Dot from "./Dot";
+
 const { width, height } = Dimensions.get("window");
 const BORDER_RADIUS = 72;
 
