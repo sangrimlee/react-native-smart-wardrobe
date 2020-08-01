@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import ProfileImage from "./ProfileImage";
 
 const ProfileScreen = () => {
     return (
         <View style={styles.container}>
+            <ProfileImage imageUrl={null} />
             <Text>ProfileScreen</Text>
         </View>
     );
