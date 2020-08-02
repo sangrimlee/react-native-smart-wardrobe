@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import { Header, Recommendation } from "../Components";
 
 const HomeScreen = () => {
     return (
         <View style={styles.container}>
-            <Text>HomeScreen</Text>
+            <Header label="Home" />
+            <View style={styles.mainContainer}>
+                <Recommendation />
+            </View>
         </View>
     );
 };
@@ -12,8 +16,15 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        backgroundColor: "#EAEAEA",
+    },
+    title: {
+        fontFamily: "SFPro-Text-Medium",
+        fontSize: 16,
+        marginBottom: 16,
+    },
+    mainContainer: {
+        flex: 1,
     },
 });
 
