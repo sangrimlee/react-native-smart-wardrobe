@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -8,16 +8,15 @@ import {
     ProfileScreen,
     WardrobeScreen,
 } from "../Screens";
-import { AddButton } from "../Components";
 
 const Tab = new createBottomTabNavigator();
 
-const AddScreen = () => {
-    return null;
-};
 const Icon = (props) => {
-    return <MaterialCommunityIcons {...props} style={{ marginTop: 8 }} />;
+    return <MaterialCommunityIcons {...props} />;
 };
+
+const marginBottom = Platform.OS === "android" ? 24 : 0;
+
 const AppNavigation = () => {
     return (
         <Tab.Navigator
@@ -33,8 +32,6 @@ const AppNavigation = () => {
                                 color={color}
                             />
                         );
-                    } else if (route.name === "Add") {
-                        return <AddButton />;
                     } else if (route.name === "Like") {
                         return <Icon name="heart" size={size} color={color} />;
                     } else if (route.name === "Profile") {
@@ -45,18 +42,23 @@ const AppNavigation = () => {
                     return <Icon />;
                 },
             })}
+            // TODO : Iphone 6,7,8 대응
             tabBarOptions={{
                 activeTintColor: "#FA6400",
                 inactiveTintColor: "#EAEAEA",
                 showLabel: false,
                 style: {
                     paddingHorizontal: 16,
+                    marginHorizontal: 16,
+                    borderRadius: 100,
+                    height: 72,
+                    marginBottom: marginBottom,
+                    elevation: 0,
                 },
             }}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Wardrobe" component={WardrobeScreen} />
-            {/* <Tab.Screen name="Add" component={AddScreen} /> */}
             <Tab.Screen name="Like" component={LikeScreen} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
