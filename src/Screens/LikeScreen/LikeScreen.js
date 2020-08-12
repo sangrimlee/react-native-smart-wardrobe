@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Header, SearchBar } from "../Components";
 
-const LikeScreen = () => {
+const LikeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Text>LikeScreen</Text>
+            <Header />
+            <SearchBar />
         </View>
     );
 };
@@ -12,8 +14,6 @@ const LikeScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
     },
 });
 

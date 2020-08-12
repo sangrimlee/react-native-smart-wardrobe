@@ -2,10 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ProfileImage from "./ProfileImage";
 import SignOutButton from "./SignOutButton";
-
+import { Header } from "../Components";
 const ProfileScreen = () => {
     return (
         <View style={styles.container}>
+            <Header />
             <View style={styles.imageContainer}>
                 <ProfileImage imageUrl={null} />
             </View>
