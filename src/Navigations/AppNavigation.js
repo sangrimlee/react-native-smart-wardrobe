@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "react-native";
+import { SafeAreaView, View, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
@@ -14,8 +14,6 @@ const Tab = new createBottomTabNavigator();
 const Icon = (props) => {
     return <MaterialCommunityIcons {...props} />;
 };
-
-const marginBottom = Platform.OS === "android" ? 24 : 0;
 
 const AppNavigation = () => {
     return (
@@ -48,11 +46,7 @@ const AppNavigation = () => {
                 inactiveTintColor: "#EAEAEA",
                 showLabel: false,
                 style: {
-                    paddingHorizontal: 16,
-                    marginHorizontal: 16,
-                    borderRadius: 100,
-                    height: 72,
-                    marginBottom: marginBottom,
+                    height: 88,
                     elevation: 0,
                 },
             }}

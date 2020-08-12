@@ -5,7 +5,7 @@ import AuthStack from "./AuthStack";
 import { AuthUserContext } from "./AuthUserProvider";
 import Loading from "./Loading";
 import * as firebase from "firebase";
-import { SafeAreaView, StatusBar } from "react-native";
+import { View, StatusBar } from "react-native";
 
 const Routes = () => {
     const { user, setUser } = useContext(AuthUserContext);
@@ -30,12 +30,12 @@ const Routes = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F2F2F2" }}>
+        <View style={{ flex: 1, backgroundColor: "#F2F2F2" }}>
             <StatusBar backgroundColor="#F2F2F2" barStyle="dark-content" />
             <NavigationContainer>
                 {user ? <AppStack /> : <AuthStack />}
             </NavigationContainer>
-        </SafeAreaView>
+        </View>
     );
 };
 
