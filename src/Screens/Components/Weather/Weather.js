@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import * as Location from "expo-location";
 import axios from "axios";
 import WeatherIcon from "./WeatherIcon";
@@ -29,7 +29,9 @@ const Weather = () => {
 
     return (
         <View style={styles.container}>
-            {isLoading ? null : (
+            {isLoading ? (
+                <ActivityIndicator size="small" color="#AAA" />
+            ) : (
                 <View style={styles.weatherContainer}>
                     <View style={styles.mainContainer}>
                         <WeatherIcon id={weatherData.weather[0].id} />
@@ -49,13 +51,13 @@ const Weather = () => {
                         <View style={styles.detailConatiner}>
                             <Text style={styles.cat}>체감온도</Text>
                             <Text style={styles.detail}>
-                                {Math.floor(weatherData.main.feels_like)}°
+                                {Math.floor(weatherData.main.feels_like)} °
                             </Text>
                         </View>
                         <View style={styles.detailConatiner}>
                             <Text style={styles.cat}>풍속</Text>
                             <Text style={styles.detail}>
-                                {weatherData.wind.speed.toFixed(1)}m/s
+                                {weatherData.wind.speed.toFixed(1)} m/s
                             </Text>
                         </View>
                     </View>
@@ -68,7 +70,8 @@ const Weather = () => {
 const styles = StyleSheet.create({
     container: {
         height: 64,
-        paddingHorizontal: 24,
+        paddingHorizontal: 16,
+        justifyContent: "center",
     },
     weatherContainer: {
         flexDirection: "row",
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "flex-end",
         justifyContent: "space-between",
+        marginRight: 4,
     },
     title: {
         fontFamily: "SFPro-Text-Light",
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#999",
         textAlign: "left",
-        marginRight: 12,
+        marginRight: 16,
     },
 });
 
