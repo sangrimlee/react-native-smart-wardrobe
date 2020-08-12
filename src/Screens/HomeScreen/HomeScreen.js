@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Header, Recommendation } from "../Components";
+import { Header, Recommendation, Weather } from "../Components";
 
 const HomeScreen = () => {
     return (
         <View style={styles.container}>
             <Header label="Home" />
+            <Weather />
             <ScrollView style={styles.mainContainer}>
                 <Recommendation />
             </ScrollView>
