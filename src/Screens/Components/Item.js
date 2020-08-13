@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import Header from "./Header";
 
@@ -32,6 +32,7 @@ const Attribute = ({ label, value }) => {
 };
 
 const Item = ({ route, navigation }) => {
+    const [isEditable, setEditable] = useState(false);
     const { imageUrl, title, category } = route.params;
     return (
         <View style={styles.container}>
@@ -45,12 +46,12 @@ const Item = ({ route, navigation }) => {
             <Header navigation={navigation} item />
             <View style={{ height: height * 0.4 }}></View>
             <View style={styles.detailContainer}>
-                <Text style={styles.title} numberOfLines={3}>
+                {/* <Text style={styles.title} numberOfLines={3}>
                     {title}
                 </Text>
                 <Divider />
                 <Attribute label="카테고리" value={category} />
-                <Attribute label="색상" value="블랙" />
+                <Attribute label="색상" value="블랙" /> */}
             </View>
         </View>
     );
