@@ -2,10 +2,10 @@ import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Header, Recommendation, Weather } from "../Components";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
-            <Header label="Home" />
+            <Header label="Home" navigation={navigation} />
             <Weather />
             <ScrollView style={styles.mainContainer}>
                 <Recommendation />

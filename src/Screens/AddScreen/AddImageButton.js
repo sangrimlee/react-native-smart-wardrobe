@@ -16,7 +16,7 @@ const AddImageButton = ({ onChangeImage }) => {
             return;
         }
         let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
+        s;
         if (!pickerResult.cancelled) {
             setImageUrl(pickerResult.uri);
             onChangeImage(imageUrl);

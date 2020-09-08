@@ -30,7 +30,12 @@ const Header = ({ label, item, navigation }) => {
                 <View style={{ ...styles.container, marginTop: insets.top }}>
                     <Icon name="search" size={20} color="#AAA" />
                     <Text style={styles.title}>{label}</Text>
-                    <Icon name="bell" size={20} color="#AAA" />
+                    <Icon
+                        name="plus-square"
+                        size={24}
+                        color="#AAA"
+                        onPress={() => navigation.navigate("AddScreen")}
+                    />
                 </View>
             )}
         </View>
