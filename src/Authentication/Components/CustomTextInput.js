@@ -6,7 +6,7 @@ import {
 } from "@expo/vector-icons";
 
 const CustomTextInput = ({ iconName, error, touched, ...props }) => {
-    const color = !touched ? "#8A8D90" : !error ? "#5cb85c" : "#d9534f";
+    const color = !touched ? "#2c2c2c" : !error ? "#5cb85c" : "#d9534f";
     const checkColor = !error ? "#5cb85c" : "#d9534f";
     return (
         <View style={[styles.container, { borderColor: color }]}>
@@ -14,7 +14,7 @@ const CustomTextInput = ({ iconName, error, touched, ...props }) => {
             <View style={{ flex: 1 }}>
                 <TextInput
                     style={styles.textInput}
-                    placeholderTextColor="#8A8D90"
+                    placeholderTextColor="#2c2c2c"
                     autoCapitalize="none"
                     {...props}
                 />
@@ -28,12 +28,14 @@ const CustomTextInput = ({ iconName, error, touched, ...props }) => {
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: checkColor,
+                        paddingLeft: 1,
+                        paddingTop: 1,
                     }}
                 >
                     <CheckIcon
                         name={!error ? "check" : "x"}
                         color="white"
-                        size={16}
+                        size={14}
                     />
                 </View>
             )}

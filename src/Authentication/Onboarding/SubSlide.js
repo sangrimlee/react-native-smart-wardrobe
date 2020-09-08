@@ -8,7 +8,7 @@ const SubSlide = (props) => {
             <Text style={styles.title}>{props.title}</Text>
             <Text style={styles.description}>{props.description}</Text>
             <Button
-                label={props.last ? "Let's get started" : "Continue"}
+                label={props.last ? "시작하기" : "계속"}
                 variant={props.last ? "primary" : "default"}
                 onPress={props.onPress}
             />
