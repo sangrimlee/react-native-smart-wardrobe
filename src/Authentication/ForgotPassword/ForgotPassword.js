@@ -1,96 +1,78 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Container, CustomTextInput, Button } from "../../Components";
-import { Footer, ForgotPasswordSchema } from "../Components";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import { Button } from "../../Components";
+import {
+    Header,
+    KeyboardAwareView,
+    ForgotPasswordSchema,
+    CustomTextInput,
+} from "../Components";
 import { Formik } from "formik";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import * as firebase from "firebase";
-const ForgotPassword = ({ navigation }) => {
-    const passwordReset = async (values) => {
-        let { email } = values;
-        try {
-            await firebase.auth().sendPasswordResetEmail(email);
-            navigation.navigate("Login");
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
+const ForgotPassword = ({ navigation }) => {
     return (
-        <Container
-            footer={
-                <Footer
-                    navigation={navigation}
-                    label="Don't work?"
-                    btnLabel="Try another way"
-                    navigate=""
-                />
-            }
-            center
-        >
-            <View style={styles.container}>
-                <Text style={styles.title}>Forgot password?</Text>
-                <Text style={styles.description}>
-                    Enter the email associated with your account.{" "}
-                </Text>
-                <Formik
-                    initialValues={{ email: "" }}
-                    validationSchema={ForgotPasswordSchema}
-                    onSubmit={(values) => passwordReset(values)}
-                >
-                    {({
-                        handleChange,
-                        handleBlur,
-                        handleSubmit,
-                        values,
-                        errors,
-                        touched,
-                    }) => (
-                        <View style={styles.container}>
-                            <CustomTextInput
-                                iconName="email-outline"
-                                placeholder="이메일"
-                                autoCompleteType="email"
-                                onChangeText={handleChange("email")}
-                                onBlur={handleBlur("email")}
-                                touched={touched.email}
-                                error={errors.email}
-                            />
-                            <Button
-                                variant="primary"
-                                label="Reset Password"
-                                onPress={handleSubmit}
-                                style={{ marginTop: 24 }}
-                            />
-                        </View>
-                    )}
-                </Formik>
-            </View>
-        </Container>
+        <SafeAreaView style={styles.container}>
+            <Header navigation={navigation} />
+            <KeyboardAwareView>
+                <View style={styles.inner}>
+                    <Text style={styles.title}>비밀번호를 잊어버렸나요?</Text>
+                    <Text style={styles.description}>
+                        회원가입에 이용한 이메일 주소를 입력해주세요.
+                    </Text>
+                    <Formik
+                        initialValues={{ email: "" }}
+                        validationSchema={ForgotPasswordSchema}
+                        onSubmit={(values) => console.log(values)}
+                    >
+                        {({
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            values,
+                            errors,
+                            touched,
+                        }) => (
+                            <View style={{ alignItems: "center" }}>
+                                <CustomTextInput
+                                    iconName="email-outline"
+                                    placeholder="이메일"
+                                    autoCompleteType="email"
+                                    onChangeText={handleChange("email")}
+                                    onBlur={handleBlur("email")}
+                                    touched={touched.email}
+                                    error={errors.email}
+                                />
+                                <Button
+                                    variant="primary"
+                                    label="비밀번호 재설정"
+                                    onPress={handleSubmit}
+                                    style={{ marginTop: 24 }}
+                                />
+                            </View>
+                        )}
+                    </Formik>
+                </View>
+            </KeyboardAwareView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: "center",
+        flex: 1,
     },
+    inner: { flex: 1, alignItems: "center", justifyContent: "center" },
     title: {
         fontFamily: "SFPro-Text-Semibold",
         fontSize: 24,
         lineHeight: 30,
-        marginTop: 24,
-        marginBottom: 8,
-        color: "#0C0D34",
+        marginBottom: 24,
+        color: "#2c2c2c",
     },
     description: {
         fontFamily: "SFPro-Text-Regular",
-        fontSize: 16,
-        lineHeight: 24,
-        color: "#0C0D34",
-        textAlign: "center",
-        marginBottom: 32,
-        width: 220,
-        opacity: 0.5,
+        fontSize: 14,
+        color: "#AAA",
     },
 });
 

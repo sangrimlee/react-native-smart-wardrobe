@@ -20,6 +20,6 @@ export const SignupSchema = Yup.object().shape({
         .required("Required"),
 });
 
-export const ForgotPassword = Yup.object().shape({
+export const ForgotPasswordSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
 });
