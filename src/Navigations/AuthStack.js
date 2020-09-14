@@ -6,6 +6,8 @@ import {
     Login,
     Signup,
     ForgotPassword,
+    CheckCode,
+    ResetPassword,
 } from "../Authentication";
 
 const Stack = new createStackNavigator();
@@ -18,6 +20,8 @@ const AuthStack = () => {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="CheckCode" component={CheckCode} />
+            <Stack.Screen name="ResetPassword" component={ResetPassword} />
         </Stack.Navigator>
     );
 };

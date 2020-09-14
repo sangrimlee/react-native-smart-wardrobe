@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, StyleSheet, SafeAreaView, Alert } from "react-native";
 import { Button } from "../../Components";
 import {
     KeyboardAwareView,
@@ -8,10 +8,41 @@ import {
     SignupSchema,
     CustomTextInput,
 } from "../Components";
-
+import { AuthUserContext } from "../../Components";
 import { Formik } from "formik";
+import axios from "axios";
 
 const Signup = ({ navigation }) => {
+    const { signUp } = useContext(AuthUserContext);
+
+    const handleSignUp = (values, navigation) => {
+        const { name, email, password } = values;
+        const data = {
+            nickname: name,
+            email: email,
+            pw: password,
+        };
+        fetch("http://3.21.245.113:8000/account/reg", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((response) => {
+                if (response.hasOwnProperty("message")) {
+                    Alert.alert("회원가입", "회원가입 되었습니다.");
+                    navigation.navigate("Login");
+                } else if (response.hasOwnProperty("email")) {
+                    Alert.alert("회원가입", "이미 존재하는 이메일입니다.");
+                }
+                console.log(response);
+            })
+            .catch((error) => console.error("Error:", error));
+        signUp();
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
@@ -25,7 +56,7 @@ const Signup = ({ navigation }) => {
                             password: "",
                         }}
                         validationSchema={SignupSchema}
-                        onSubmit={(values) => signUpWithEmail(values)}
+                        onSubmit={(values) => handleSignUp(values, navigation)}
                     >
                         {({
                             handleChange,

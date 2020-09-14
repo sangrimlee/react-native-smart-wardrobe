@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     SafeAreaView,
+    Alert,
 } from "react-native";
-import { Button } from "../../Components";
+import { Button, AuthUserContext } from "../../Components";
 import {
     CustomTextInput,
     Header,
@@ -15,8 +16,32 @@ import {
     LoginSchema,
 } from "../Components";
 import { Formik } from "formik";
+import axios from "axios";
 
 const Login = ({ navigation }) => {
+    const { login } = useContext(AuthUserContext);
+
+    const handleLogin = (values) => {
+        const { email, password } = values;
+        const data = { email, pw: password };
+        fetch("http://3.21.245.113:8000/account/login", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((response) => {
+                if (response.hasOwnProperty("token")) {
+                    login(response.token);
+                } else if (response.hasOwnProperty("message")) {
+                    Alert.alert("로그인 실패", response.message);
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
@@ -29,7 +54,7 @@ const Login = ({ navigation }) => {
                             password: "",
                         }}
                         validationSchema={LoginSchema}
-                        onSubmit={(values) => console.log(values)}
+                        onSubmit={(values) => handleLogin(values)}
                     >
                         {({
                             handleChange,

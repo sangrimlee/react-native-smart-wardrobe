@@ -68,7 +68,7 @@ const Category = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingVertical: 24,
+        paddingTop: 8,
     },
 });
 

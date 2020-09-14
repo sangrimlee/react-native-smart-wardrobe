@@ -8,9 +8,9 @@ const ProfileScreen = () => {
     return (
         <View style={styles.container}>
             <Header />
-            <View style={styles.imageContainer}>
+            {/* <View style={styles.imageContainer}>
                 <ProfileImage />
-            </View>
+            </View> */}
             <View style={styles.menuContainer}>
                 <SignOutButton />
             </View>

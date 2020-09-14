@@ -4,46 +4,47 @@ import { Button } from "../../Components";
 import {
     Header,
     KeyboardAwareView,
-    ForgotPasswordSchema,
+    CheckCodeSchema,
     CustomTextInput,
 } from "../Components";
 import { Formik } from "formik";
 
-const ForgotPassword = ({ navigation }) => {
-    const handleForgotPassword = (values, navigation) => {
-        const { email } = values;
-        fetch("http://3.21.245.113:8000/account/codesend", {
+const CheckCode = ({ route, navigation }) => {
+    const { email } = route.params;
+    const handleCheckCode = (values, navigation) => {
+        let { email, code } = values;
+        fetch("http://3.21.245.113:8000/account/codeconfig", {
             method: "POST",
-            body: JSON.stringify(values),
+            body: JSON.stringify({ email, code: parseInt(code) }),
             headers: {
                 "Content-Type": "application/json",
             },
         })
             .then((res) => res.json())
             .then((response) => {
-                if (response.hasOwnProperty("message")) {
-                    Alert.alert("전송 완료", "이메일로 코드가 전송되었습니다.");
-                    navigation.navigate("CheckCode", { email });
+                if (response.message === "code incorrect") {
+                    Alert.alert("코드 오류", "코드가 일치하지 않습니다.");
+                } else if (response.message === "match") {
+                    console.log(response.message);
+                    navigation.navigate("ResetPassword", { email });
                 }
-                console.log(response);
             })
             .catch((error) => console.error("Error:", error));
     };
-
     return (
         <SafeAreaView style={styles.container}>
             <Header navigation={navigation} />
             <KeyboardAwareView>
                 <View style={styles.inner}>
-                    <Text style={styles.title}>비밀번호를 잊어버렸나요?</Text>
+                    <Text style={styles.title}>코드를 입력하세요.</Text>
                     <Text style={styles.description}>
-                        회원가입에 이용한 이메일 주소를 입력해주세요.
+                        이메일로 전송된 코드를 입력해주세요.
                     </Text>
                     <Formik
-                        initialValues={{ email: "" }}
-                        validationSchema={ForgotPasswordSchema}
+                        initialValues={{ email: email, code: "123" }}
+                        validationSchema={CheckCodeSchema}
                         onSubmit={(values) =>
-                            handleForgotPassword(values, navigation)
+                            handleCheckCode(values, navigation)
                         }
                     >
                         {({
@@ -56,13 +57,12 @@ const ForgotPassword = ({ navigation }) => {
                         }) => (
                             <View style={{ alignItems: "center" }}>
                                 <CustomTextInput
-                                    iconName="email-outline"
-                                    placeholder="이메일"
-                                    autoCompleteType="email"
-                                    onChangeText={handleChange("email")}
-                                    onBlur={handleBlur("email")}
-                                    touched={touched.email}
-                                    error={errors.email}
+                                    iconName="lock"
+                                    placeholder="코드를 입력하시오."
+                                    onChangeText={handleChange("code")}
+                                    onBlur={handleBlur("code")}
+                                    touched={touched.code}
+                                    error={errors.code}
                                 />
                                 <Button
                                     variant="primary"
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ForgotPassword;
+export default CheckCode;

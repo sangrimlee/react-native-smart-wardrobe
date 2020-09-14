@@ -1,9 +1,7 @@
 import React from "react";
 import { AppLoading } from "expo";
 import { useFonts } from "expo-font";
-import { firebaseConfig } from "./Config";
-import * as firebase from "firebase";
-import Providers from "./src/Navigations";
+import { Routes } from "./src/Navigations";
 
 const fonts = {
     "SFPro-Text-Bold": require("./assets/fonts/SF-Pro-Bold.otf"),
@@ -14,13 +12,10 @@ const fonts = {
 };
 
 export default function App() {
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
     let [isLoaded] = useFonts(fonts);
 
     if (!isLoaded) {
         return <AppLoading />;
     }
-    return <Providers />;
+    return <Routes />;
 }

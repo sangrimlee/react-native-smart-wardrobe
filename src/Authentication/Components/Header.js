@@ -9,7 +9,7 @@ const Header = ({ navigation }) => {
                 name="ios-arrow-back"
                 size={24}
                 color="black"
-                onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate("Welcome")}
             />
         </View>
     );

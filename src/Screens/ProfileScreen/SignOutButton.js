@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Button } from "../../Components";
-import * as firebase from "firebase";
+import { AuthUserContext, Button } from "../../Components";
 
 const SignOutButton = () => {
-    const signOutUser = () => {
-        firebase
-            .auth()
-            .signOut()
-            .then(() => console.log("Sign Out"))
-            .catch((err) => console.log(err));
+    const { signOut } = useContext(AuthUserContext);
+
+    const handleSignOut = () => {
+        signOut();
     };
-    return <Button label="Sign Out" variant="primary" onPress={signOutUser} />;
+    return (
+        <Button label="Sign Out" variant="primary" onPress={handleSignOut} />
+    );
 };
 
 const styles = StyleSheet.create({

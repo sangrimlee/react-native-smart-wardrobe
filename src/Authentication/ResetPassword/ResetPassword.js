@@ -4,26 +4,28 @@ import { Button } from "../../Components";
 import {
     Header,
     KeyboardAwareView,
-    ForgotPasswordSchema,
+    ResetPasswordSchema,
     CustomTextInput,
 } from "../Components";
 import { Formik } from "formik";
 
-const ForgotPassword = ({ navigation }) => {
-    const handleForgotPassword = (values, navigation) => {
-        const { email } = values;
-        fetch("http://3.21.245.113:8000/account/codesend", {
+const ResetPassword = ({ route, navigation }) => {
+    const { email } = route.params;
+
+    const handleResetPassword = (values, navigation) => {
+        const { email, password } = values;
+        fetch("http://3.21.245.113:8000/account/changepw", {
             method: "POST",
-            body: JSON.stringify(values),
+            body: JSON.stringify({ email, newpw: password }),
             headers: {
                 "Content-Type": "application/json",
             },
         })
             .then((res) => res.json())
             .then((response) => {
-                if (response.hasOwnProperty("message")) {
-                    Alert.alert("전송 완료", "이메일로 코드가 전송되었습니다.");
-                    navigation.navigate("CheckCode", { email });
+                if (response.message === "비밀번호가 변경되었습니다!") {
+                    Alert.alert("변경 완료", "비밀번호가 변경되었습니다.");
+                    navigation.navigate("Login");
                 }
                 console.log(response);
             })
@@ -35,15 +37,19 @@ const ForgotPassword = ({ navigation }) => {
             <Header navigation={navigation} />
             <KeyboardAwareView>
                 <View style={styles.inner}>
-                    <Text style={styles.title}>비밀번호를 잊어버렸나요?</Text>
+                    <Text style={styles.title}>비밀번호 재설정</Text>
                     <Text style={styles.description}>
-                        회원가입에 이용한 이메일 주소를 입력해주세요.
+                        새롭게 사용할 비밀번호를 입력해주세요.
                     </Text>
                     <Formik
-                        initialValues={{ email: "" }}
-                        validationSchema={ForgotPasswordSchema}
+                        initialValues={{
+                            email: email,
+                            password: "",
+                            confirmPassword: "",
+                        }}
+                        validationSchema={ResetPasswordSchema}
                         onSubmit={(values) =>
-                            handleForgotPassword(values, navigation)
+                            handleResetPassword(values, navigation)
                         }
                     >
                         {({
@@ -56,13 +62,22 @@ const ForgotPassword = ({ navigation }) => {
                         }) => (
                             <View style={{ alignItems: "center" }}>
                                 <CustomTextInput
-                                    iconName="email-outline"
-                                    placeholder="이메일"
-                                    autoCompleteType="email"
-                                    onChangeText={handleChange("email")}
-                                    onBlur={handleBlur("email")}
-                                    touched={touched.email}
-                                    error={errors.email}
+                                    iconName="lock"
+                                    placeholder="비밀번호를 입력하세요."
+                                    onChangeText={handleChange("password")}
+                                    onBlur={handleBlur("password")}
+                                    touched={touched.password}
+                                    error={errors.password}
+                                />
+                                <CustomTextInput
+                                    iconName="lock"
+                                    placeholder="다시 비밀번호를 입력하세요."
+                                    onChangeText={handleChange(
+                                        "confirmPassword"
+                                    )}
+                                    onBlur={handleBlur("confirmPassword")}
+                                    touched={touched.confirmPassword}
+                                    error={errors.confirmPassword}
                                 />
                                 <Button
                                     variant="primary"
@@ -98,4 +113,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ForgotPassword;
+export default ResetPassword;
