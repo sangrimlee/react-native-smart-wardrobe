@@ -65,6 +65,8 @@ const ResetPassword = ({ route, navigation }) => {
                                     iconName="lock"
                                     placeholder="비밀번호를 입력하세요."
                                     onChangeText={handleChange("password")}
+                                    secureTextEntry={true}
+                                    autoCompleteType="password"
                                     onBlur={handleBlur("password")}
                                     touched={touched.password}
                                     error={errors.password}
@@ -75,6 +77,8 @@ const ResetPassword = ({ route, navigation }) => {
                                     onChangeText={handleChange(
                                         "confirmPassword"
                                     )}
+                                    secureTextEntry={true}
+                                    autoCompleteType="password"
                                     onBlur={handleBlur("confirmPassword")}
                                     touched={touched.confirmPassword}
                                     error={errors.confirmPassword}

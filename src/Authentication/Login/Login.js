@@ -91,7 +91,7 @@ const Login = ({ navigation }) => {
                                         justifyContent: "space-between",
                                         alignItems: "center",
                                         width: 280,
-                                        marginTop: 4,
+                                        marginTop: 8,
                                     }}
                                 >
                                     <Text
