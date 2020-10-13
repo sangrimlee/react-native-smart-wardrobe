@@ -5,32 +5,32 @@ import SignOutButton from "./SignOutButton";
 import { Header } from "../Components";
 
 const ProfileScreen = () => {
-    return (
-        <View style={styles.container}>
-            <Header />
-            {/* <View style={styles.imageContainer}>
+  return (
+    <View style={styles.container}>
+      <Header label="내 프로필" />
+      {/* <View style={styles.imageContainer}>
                 <ProfileImage />
             </View> */}
-            <View style={styles.menuContainer}>
-                <SignOutButton />
-            </View>
-        </View>
-    );
+      <View style={styles.menuContainer}>
+        <SignOutButton />
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    imageContainer: {
-        flex: 2,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    menuContainer: {
-        flex: 3,
-        alignItems: "center",
-    },
+  container: {
+    flex: 1,
+  },
+  imageContainer: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  menuContainer: {
+    flex: 3,
+    alignItems: "center",
+  },
 });
 
 export default ProfileScreen;
