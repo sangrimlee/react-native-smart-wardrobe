@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -6,23 +6,23 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-} from "react-native";
-import { Button, AuthUserContext } from "../../Components";
+} from 'react-native';
+import { Button, AuthUserContext } from '../../Components';
 import {
   CustomTextInput,
   Header,
   Footer,
   KeyboardAwareView,
   LoginSchema,
-} from "../Components";
-import { Formik } from "formik";
-import axios from "axios";
+} from '../Components';
+import { Formik } from 'formik';
+import axios from 'axios';
 
 const Login = ({ navigation }) => {
   const { login } = useContext(AuthUserContext);
 
   const handleLogin = (values) => {
-    login("TOKEN");
+    login('TOKEN');
     // const { email, password } = values;
     // const data = { email, pw: password };
     // fetch("http://3.21.245.113:8000/account/login", {
@@ -51,8 +51,8 @@ const Login = ({ navigation }) => {
           <Text style={styles.title}>로그인</Text>
           <Formik
             initialValues={{
-              email: "",
-              password: "",
+              email: '',
+              password: '',
             }}
             validationSchema={LoginSchema}
             onSubmit={(values) => handleLogin(values)}
@@ -66,13 +66,13 @@ const Login = ({ navigation }) => {
               errors,
               touched,
             }) => (
-              <View style={{ alignItems: "center" }}>
+              <View style={{ alignItems: 'center' }}>
                 <CustomTextInput
                   iconName="email-outline"
                   placeholder="이메일"
                   autoCompleteType="email"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
                   touched={touched.email}
                   error={errors.email}
                 />
@@ -81,37 +81,37 @@ const Login = ({ navigation }) => {
                   placeholder="비밀번호"
                   secureTextEntry={true}
                   autoCompleteType="password"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
                   touched={touched.password}
                   error={errors.password}
                 />
                 <View
                   style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     width: 280,
                     marginTop: 8,
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: "SFPro-Text-Regular",
+                      fontFamily: 'SFPro-Text-Regular',
                       fontSize: 14,
-                      color: "#2c2c2c",
+                      color: '#2c2c2c',
                     }}
                   >
                     비밀번호를 잊어버렸나요?
                   </Text>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("ForgotPassword")}
+                    onPress={() => navigation.navigate('ForgotPassword')}
                   >
                     <Text
                       style={{
-                        fontFamily: "SFPro-Text-Regular",
+                        fontFamily: 'SFPro-Text-Regular',
                         fontSize: 14,
-                        color: "#FA6400",
+                        color: '#FA6400',
                       }}
                     >
                       비밀번호 찾기
@@ -145,15 +145,15 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    fontFamily: "SFPro-Text-Semibold",
+    fontFamily: 'SFPro-Text-Semibold',
     fontSize: 32,
     lineHeight: 40,
     marginBottom: 8,
-    color: "#2c2c2c",
+    color: '#2c2c2c',
   },
 });
 
