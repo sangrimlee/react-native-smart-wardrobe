@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Animated,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -24,13 +25,29 @@ const Button = ({ iconName, title, description, onPress }) => {
     </TouchableOpacity>
   );
 };
+
 const AddScreen = ({ navigation }) => {
+  const mountAnimValue = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const mountAnim = () => {
+      Animated.timing(mountAnimValue, {
+        toValue: 1,
+        duration: 550,
+        useNativeDriver: true,
+      }).start();
+    };
+    mountAnim();
+  }, []);
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={{ flex: 1, backgroundColor: 'transaparent', width: '100%' }}
-        onPress={() => navigation.pop()}
-      />
+      <Animated.View
+        style={[styles.overLayContainer, { opacity: mountAnimValue }]}
+      >
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          onPress={() => navigation.pop()}
+        />
+      </Animated.View>
       <SafeAreaView style={styles.modalContainer}>
         <Button
           iconName="cart-outline"
@@ -59,6 +76,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'flex-end',
   },
+  overLayContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
   modalContainer: {
     width: '100%',
     backgroundColor: '#FFF',
@@ -68,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 16,
-    borderBottomColor: 'rgba(2,2,2,0.3)',
+    borderBottomColor: 'rgba(2,2,2,0.1)',
     borderBottomWidth: 0.5,
   },
   icon: {
