@@ -15,7 +15,7 @@ export const LoginSchema = Yup.object().shape({
 });
 
 export const SignupSchema = Yup.object().shape({
-  name: Yup.string().required('이름을 입력해주세요.'),
+  userName: Yup.string().required('이름을 입력해주세요.'),
   email: Yup.string()
     .email('올바른 이메일 형식이 아닙니다.')
     .required('이메일을 입력해주세요.'),

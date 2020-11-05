@@ -1,47 +1,48 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
-import MainCard from './MainCard';
 import { Ionicons } from '@expo/vector-icons';
+import RecommendationCard from './RecommendationCard';
+import StyleSelector from './StyleSelector';
+import { useSelector } from 'react-redux';
 
 const DATA = [
   {
     id: '1',
     instagramID: 'slowsteadyclub',
     imageUrl:
-      'https://scontent-waw1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/116550857_769606913813726_8506515377747322983_n.jpg?_nc_ht=scontent-waw1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=BzqqVClQ4yoAX8N6cHQ&oh=46699e1067e5f5d23b51b34c887c44ff&oe=5F4EF265',
+      'https://smart-wardrobe-static.s3.amazonaws.com/mss/woman/feminine/13600.jpg',
   },
   {
     id: '2',
     instagramID: 'slowsteadyclub',
     imageUrl:
-      'https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/106682059_1176509129379538_4894653869894877780_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=110&_nc_ohc=WaRvL0GxtikAX8jF_by&oh=f466a81fc329536b837ce9a8ad62d0e3&oe=5F506B12',
+      'https://scontent-atl3-2.cdninstagram.com/v/t51.29350-15/121963722_2098757286923695_4914056245156051055_n.jpg?_nc_cat=106&_nc_sid=8ae9d6&_nc_ohc=pZe6OweIqpgAX_hRz_A&_nc_ht=scontent-atl3-2.cdninstagram.com&oh=448dc0a22636439b46504708f03121e7&oe=5FB0A523',
   },
   {
     id: '3',
     instagramID: 'studionicholson',
     imageUrl:
-      'https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/106461334_3194736330647886_2676888737070835504_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=yXT42hR5D7UAX8FBQ8d&oh=fe99df1421edd232a3432632ca580717&oe=5F50E3CD',
-  },
-  {
-    id: '4',
-    instagramID: 'fr8ight',
-    imageUrl:
-      'https://scontent-gmp1-1.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/116967646_720270441880089_8871306340542245392_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=hzCq9oYenW0AX8gBBfr&oh=898f447c016d8aeca9b55c355727c3d4&oe=5F4DEA25',
+      'https://scontent-atl3-2.cdninstagram.com/v/t51.29350-15/122005511_923150561427914_3994384235945185794_n.jpg?_nc_cat=104&_nc_sid=8ae9d6&_nc_ohc=BKYUwXjSMYYAX-x0LPQ&_nc_ht=scontent-atl3-2.cdninstagram.com&oh=aa7fe7b23e143b0031fe457b1f8e255f&oe=5FAF3A3B',
   },
 ];
 
 const { width, height } = Dimensions.get('window');
 
-const Recommendation = () => {
+const RecommendationList = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
-
+  const { userGender } = useSelector((state) => state.auth.userInfo);
+  const [currentStyle, setCurrentStyle] = useState('');
   const renderItem = ({ item, index }) => {
-    return <MainCard {...item} index={index} scrollX={scrollX} />;
+    return <RecommendationCard item={item} index={index} scrollX={scrollX} />;
   };
+  useEffect(() => {
+    console.log(currentStyle);
+  }, [currentStyle]);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Today's pick</Text>
+        <Text style={styles.title}>오늘의 추천</Text>
         <Ionicons
           name="md-refresh-circle"
           size={24}
@@ -50,6 +51,11 @@ const Recommendation = () => {
           style={styles.refreshBtn}
         />
       </View>
+      <StyleSelector
+        userGender={userGender}
+        currentStyle={currentStyle}
+        onSelect={setCurrentStyle}
+      />
       <Animated.FlatList
         data={DATA}
         renderItem={renderItem}
@@ -91,4 +97,4 @@ const styles = StyleSheet.create({
   refreshBtn: {},
 });
 
-export default Recommendation;
+export default RecommendationList;

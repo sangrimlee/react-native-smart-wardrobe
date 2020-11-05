@@ -7,10 +7,9 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { categoryList } from './Components';
-import { Transition, Transitioning } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import Animated, { Transition, Transitioning } from 'react-native-reanimated';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { IconHeader } from '../Components/Header';
 
 const transition = (
   <Transition.Together>
@@ -20,51 +19,19 @@ const transition = (
   </Transition.Together>
 );
 
-const Header = () => {
-  const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
-  return (
-    <View
-      style={{
-        marginTop: insets.top,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        borderBottomWidth: 0.5,
-        borderBottomColor: 'rgba(0,0,0,0.3)',
-      }}
-    >
-      <MaterialCommunityIcons
-        style={{ flex: 1 }}
-        name="arrow-left"
-        size={24}
-        color="black"
-        onPress={() => navigation.goBack()}
-      />
-      <Text
-        style={{
-          flex: 1,
-          fontFamily: 'SFPro-Text-Semibold',
-          fontSize: 18,
-          color: '#2C2C2C',
-        }}
-      >
-        카테고리 선택
-      </Text>
-      <View style={{ flex: 1 }} />
-    </View>
-  );
-};
-
-const SelectCategory = ({ navigation, routes }) => {
+const SelectCategory = ({ navigation, route }) => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const ref = useRef();
+  const type = route.params?.type ?? '';
 
   return (
     <View style={styles.container}>
       <Transitioning.View ref={ref} transition={transition}>
-        <Header />
+        <IconHeader
+          leftName="arrow-left"
+          handleLeft={() => navigation.pop()}
+          label="카테고리 선택"
+        />
         {categoryList.map(({ category, subCategories }, index) => {
           return (
             <TouchableWithoutFeedback
@@ -84,22 +51,41 @@ const SelectCategory = ({ navigation, routes }) => {
                   >
                     {category}
                   </Text>
+                  <MaterialCommunityIcons
+                    size={20}
+                    name="arrow-down-drop-circle"
+                    style={{
+                      color:
+                        index === currentIndex ? '#FA6400' : 'rgba(0,0,0,0.3)',
+                      transform: [
+                        { rotate: index === currentIndex ? '180deg' : '0deg' },
+                      ],
+                    }}
+                  />
                 </View>
                 {index === currentIndex && (
                   <View style={styles.subCategoriesList}>
                     {subCategories.map((subCategory) => (
                       <TouchableHighlight
                         activeOpacity={0.1}
-                        underlayColor="#FA6400"
+                        underlayColor="rgba(250, 100, 0, 0.1)"
                         key={subCategory}
-                        onPress={() =>
-                          navigation.navigate('ItemStack', {
-                            screen: 'ItemAddForm',
-                            params: {
-                              category: { category, subCategory },
-                            },
-                          })
-                        }
+                        onPress={() => {
+                          if (type === 'ADD') {
+                            navigation.navigate('ItemAddForm', {
+                              category,
+                              subCategory,
+                            });
+                          } else if (type === 'MODIFY') {
+                            navigation.navigate('ItemStack', {
+                              screen: 'ItemModifyForm',
+                              params: {
+                                category,
+                                subCategory,
+                              },
+                            });
+                          }
+                        }}
                       >
                         <Text style={[styles.body]}>{subCategory}</Text>
                       </TouchableHighlight>
@@ -119,18 +105,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    backgroundColor: '#FEFFFE',
   },
   cardContainer: {
     justifyContent: 'center',
   },
   headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgba(0,0,0,0.3)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
   },
   header: {
-    fontFamily: 'SFPro-Text-Medium',
+    fontFamily: 'SFPro-Text-Light',
     fontSize: 16,
   },
   body: {
@@ -140,8 +130,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   subCategoriesList: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'rgba(0,0,0,0.3)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
   },
 });
 

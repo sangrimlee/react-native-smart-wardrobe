@@ -16,33 +16,14 @@ import {
   LoginSchema,
 } from '../Components';
 import { Formik } from 'formik';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../store/actions/auth';
 
-const Login = ({ navigation }) => {
-  const { login } = useContext(AuthUserContext);
-
-  const handleLogin = (values) => {
-    login('TOKEN');
-    // const { email, password } = values;
-    // const data = { email, pw: password };
-    // fetch("http://3.21.245.113:8000/account/login", {
-    //     method: "POST",
-    //     body: JSON.stringify(data),
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    // })
-    //     .then((res) => res.json())
-    //     .then((response) => {
-    //         if (response.hasOwnProperty("token")) {
-    //             login(response.token);
-    //         } else if (response.hasOwnProperty("message")) {
-    //             Alert.alert("로그인 실패", response.message);
-    //         }
-    //     })
-    //     .catch((error) => console.error("Error:", error));
+const SignIn = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const handleSignIn = (values) => {
+    dispatch(signIn(values));
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
@@ -55,7 +36,7 @@ const Login = ({ navigation }) => {
               password: '',
             }}
             validationSchema={LoginSchema}
-            onSubmit={(values) => handleLogin(values)}
+            onSubmit={(values) => handleSignIn(values)}
           >
             {({
               handleChange,
@@ -157,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignIn;

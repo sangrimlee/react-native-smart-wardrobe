@@ -5,8 +5,10 @@ import {
 } from '@react-navigation/stack';
 import AppNavigation from './AppNavigation';
 import ItemStack from './ItemStack';
-import AddScreen from '../Screens/AddScreen';
-const Stack = new createStackNavigator();
+import RecommendationStack from './RecommendationStack';
+import { LikeScreen } from '../Screens';
+import { ItemAddForm } from '../Screens/ItemScreen';
+const Stack = createStackNavigator();
 
 const AppStack = () => {
   return (
@@ -15,22 +17,26 @@ const AppStack = () => {
       screenOptions={{ animationEnabled: true }}
     >
       <Stack.Screen name="AppNavigation" component={AppNavigation} />
+      <Stack.Screen name="ItemStack" component={ItemStack} />
       <Stack.Screen
-        name="ItemStack"
-        component={ItemStack}
+        name="LikeScreen"
+        component={LikeScreen}
         options={{
+          cardOverlayEnabled: true,
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
       />
       <Stack.Screen
-        name="AddScreen"
-        component={AddScreen}
+        name="ItemAddForm"
+        component={ItemAddForm}
         options={{
-          cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.3)' },
           cardOverlayEnabled: true,
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}
+      />
+      <Stack.Screen
+        name="RecommendationStack"
+        component={RecommendationStack}
       />
     </Stack.Navigator>
   );

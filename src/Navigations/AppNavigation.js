@@ -9,10 +9,11 @@ import {
   WardrobeScreen,
   AddScreen,
 } from '../Screens';
+import RecommendationStack from './RecommendationStack';
 
 const Tab = new createBottomTabNavigator();
 
-const Add = () => {
+const Empty = () => {
   return <View />;
 };
 const AppNavigation = () => {
@@ -50,7 +51,7 @@ const AppNavigation = () => {
 
       <Tab.Screen
         name="Add"
-        component={Add}
+        component={Empty}
         options={{
           tabBarIcon: (props) => (
             <Icon name="plus-box" size={props.size} color={props.color} />
@@ -59,19 +60,25 @@ const AppNavigation = () => {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            navigation.navigate('AddScreen');
+            navigation.navigate('ItemAddForm');
           },
         })}
       />
 
       <Tab.Screen
         name="Like"
-        component={LikeScreen}
+        component={Empty}
         options={{
           tabBarIcon: (props) => (
             <Icon name="heart" size={props.size} color={props.color} />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('LikeScreen');
+          },
+        })}
       />
 
       <Tab.Screen

@@ -15,7 +15,7 @@ const SelectGender = ({ genderValue, setGenderValue }) => {
       duration: 300,
       useNativeDriver: false,
     }).start();
-    setGenderValue('gender', 'male');
+    setGenderValue('userGender', 'male');
   };
 
   const selectFemale = () => {
@@ -24,7 +24,7 @@ const SelectGender = ({ genderValue, setGenderValue }) => {
       duration: 300,
       useNativeDriver: false,
     }).start();
-    setGenderValue('gender', 'female');
+    setGenderValue('userGender', 'female');
   };
 
   return (

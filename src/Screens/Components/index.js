@@ -1,4 +1,4 @@
 export { default as Header } from './Header';
-export { default as MainCard } from './MainCard';
-export { default as Recommendation } from './Recommendation';
+export { default as BackHeader } from './BackHeader';
+
 export { Weather } from './Weather';

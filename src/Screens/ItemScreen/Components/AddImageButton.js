@@ -1,93 +1,11 @@
-// import React, { useState } from 'react';
-// import { View, Text, StyleSheet, Image } from 'react-native';
-// import { FontAwesome5 as Icon } from '@expo/vector-icons';
-// import { TextButton } from '../../Components';
-// import * as ImagePicker from 'expo-image-picker';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-
-// const AddImageButton = ({ onChangeImage }) => {
-//   const [imageUrl, setImageUrl] = useState('');
-
-//   const openImagePickerAsync = async () => {
-//     // let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-//     // if (permissionResult.granted === false) {
-//     //   alert('Permission to access camera roll is required!');
-//     //   return;
-//     // }
-//     // let pickerResult = await ImagePicker.launchImageLibraryAsync();
-//     // console.log(pickerResult);
-//     // if (!pickerResult.cancelled) {
-//     //   setImageUrl(pickerResult.uri);
-//     //   onChangeImage(imageUrl);
-//     //   // uploadImage(pickerResult.uri);
-//     // } else {
-//     //   console.log(pickerResult);
-//     // }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       {imageUrl ? (
-//         <TouchableOpacity
-//           style={styles.imgContainer}
-//           //   onPress={() => openImagePickerAsync()}
-//         >
-//           <Image
-//             source={{
-//               uri: `${imageUrl}`,
-//             }}
-//             style={styles.img}
-//           />
-//         </TouchableOpacity>
-//       ) : (
-//         <View style={styles.container}>
-//           <TouchableOpacity
-//             style={styles.iconContainer}
-//             // onPress={() => openImagePickerAsync()}
-//           >
-//             <Icon style={styles.icon} name="tshirt" size={64} color="#EAEAEA" />
-//           </TouchableOpacity>
-//           <TextButton
-//             label="사진 추가"
-//             color="#FA6400"
-//             // onPress={() => openImagePickerAsync()}
-//           />
-//         </View>
-//       )}
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   iconContainer: {
-//     width: 128,
-//     height: 128,
-//     borderRadius: 64,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#2c2c2c',
-//     marginVertical: 8,
-//   },
-//   imgContainer: { width: 160, height: 160, marginTop: 8, marginBottom: 16 },
-//   img: {
-//     width: 160,
-//     height: 160,
-//     borderRadius: 80,
-//   },
-// });
-
-// export default AddImageButton;
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SelectActionModal from './SelectActionModal';
 import * as ImagePicker from 'expo-image-picker';
-
+import * as FileSystem from 'expo-file-system';
 import { Camera } from 'expo-camera';
+import { useSelector } from 'react-redux';
 
 const DeleteImageButton = ({ onPress }) => {
   return (
@@ -109,9 +27,9 @@ const DeleteImageButton = ({ onPress }) => {
     </TouchableOpacity>
   );
 };
-const AddImageButton = () => {
+
+const AddImageButton = ({ imageUrl, onChangeImage }) => {
   const [visible, setVisible] = useState(false);
-  const [imageList, setImageList] = useState([]);
 
   const openAlbum = async () => {
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -120,16 +38,8 @@ const AddImageButton = () => {
       return;
     }
     let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (
-      !pickerResult.cancelled &&
-      !imageList.includes({ imageURL: pickerResult.uri })
-    ) {
-      const newImageList = imageList.concat({
-        imageURL: pickerResult.uri,
-      });
-      setImageList(newImageList);
-    } else {
-      console.log(pickerResult);
+    if (!pickerResult.cancelled) {
+      onChangeImage(pickerResult.uri);
     }
     setVisible(false);
   };
@@ -143,27 +53,23 @@ const AddImageButton = () => {
         onPress={() => setVisible(true)}
       >
         <Ionicons name="md-camera" size={24} color="rgba(0,0,0,0.4)" />
-        <Text style={styles.buttonText}>{imageList.length}/3</Text>
+        <Text style={styles.buttonText}>{imageUrl ? 1 : 0}/1</Text>
       </TouchableOpacity>
-      {imageList.map((image) => {
-        return (
-          <View key={image.imageURL}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: image.imageURL,
-              }}
-            />
-            <DeleteImageButton
-              onPress={() => {
-                setImageList(
-                  imageList.filter((img) => img.imageURL !== image.imageURL),
-                );
-              }}
-            />
-          </View>
-        );
-      })}
+      {imageUrl ? (
+        <View>
+          <Image
+            style={styles.image}
+            source={{
+              uri: imageUrl,
+            }}
+          />
+          <DeleteImageButton
+            onPress={() => {
+              onChangeImage('');
+            }}
+          />
+        </View>
+      ) : null}
 
       <SelectActionModal
         visible={visible}

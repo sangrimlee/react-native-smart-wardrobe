@@ -5,7 +5,7 @@ const AnimatedImage = ({ scrollY, height, imageUrl }) => {
   const inputRange = [-height, 0, height];
   const scale = scrollY.interpolate({
     inputRange,
-    outputRange: [3.5, 1, 1.5],
+    outputRange: [3.5, 1, 1.2],
   });
   return (
     <Animated.View style={{ height, transform: [{ scale: scale }] }}>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import { Formik } from 'formik';
-import { AuthUserContext, Button } from '../../Components';
+import { Button } from '../../Components';
 import {
   KeyboardAwareView,
   Header,
@@ -10,39 +10,14 @@ import {
   CustomTextInput,
   SelectGender,
 } from '../Components';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../../store/actions/auth';
 
 const Signup = ({ navigation }) => {
-  const { signUp } = useContext(AuthUserContext);
+  const dispatch = useDispatch();
 
   const handleSignUp = (values) => {
-    const { name, email, password, gender } = values;
-    const data = {
-      nickname: name,
-      email: email,
-      pw: password,
-      sex: gender,
-    };
-    fetch('http://3.21.245.113:8000/account/reg', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.status) {
-          Alert.alert('회원가입', '회원가입 되었습니다.');
-          navigation.navigate('Login');
-        } else {
-          if (response.hasOwnProperty('email')) {
-            Alert.alert('회원가입', '이미 존재하는 이메일입니다.');
-          }
-        }
-        console.log(response);
-      })
-      .catch((error) => console.error('Error:', error));
-    signUp();
+    dispatch(signUp(values));
   };
 
   return (
@@ -53,10 +28,10 @@ const Signup = ({ navigation }) => {
           <Text style={styles.title}>회원가입</Text>
           <Formik
             initialValues={{
-              name: '',
               email: '',
               password: '',
-              gender: 'male',
+              userName: '',
+              userGender: 'male',
             }}
             validationSchema={SignupSchema}
             onSubmit={(values) => handleSignUp(values)}
@@ -72,16 +47,16 @@ const Signup = ({ navigation }) => {
             }) => (
               <View style={{ alignItems: 'center' }}>
                 <SelectGender
-                  genderValue={values.gender}
+                  genderValue={values.userGender}
                   setGenderValue={setFieldValue}
                 />
                 <CustomTextInput
                   iconName="account-outline"
                   placeholder="이름"
-                  onChangeText={handleChange('name')}
-                  onBlur={handleBlur('name')}
-                  touched={touched.name}
-                  error={errors.name}
+                  onChangeText={handleChange('userName')}
+                  onBlur={handleBlur('userName')}
+                  touched={touched.userName}
+                  error={errors.userName}
                 />
                 <CustomTextInput
                   iconName="email-outline"

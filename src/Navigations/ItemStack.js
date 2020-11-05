@@ -1,27 +1,20 @@
 import React from 'react';
 import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
-import { ItemAddForm, SelectCategory, ItemInfo } from '../Screens/ItemScreen';
-
+  ItemModifyForm,
+  SelectCategory,
+  SelectColor,
+  ItemInfo,
+} from '../Screens/ItemScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 const Stack = new createStackNavigator();
 
 const ItemStack = () => {
   return (
-    <Stack.Navigator
-      headerMode="none"
-      screenOptions={{ animationEnabled: true }}
-    >
-      <Stack.Screen name="ItemAddForm" component={ItemAddForm} />
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="ItemModifyForm" component={ItemModifyForm} />
       <Stack.Screen name="SelectCategory" component={SelectCategory} />
-      <Stack.Screen
-        name="ItemInfo"
-        component={ItemInfo}
-        options={{
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        }}
-      />
+      <Stack.Screen name="ItemInfo" component={ItemInfo} />
+      <Stack.Screen name="SelectColor" component={SelectColor} />
     </Stack.Navigator>
   );
 };

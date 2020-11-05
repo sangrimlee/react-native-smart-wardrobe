@@ -11,8 +11,10 @@ import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
-const ItemCard = ({ imageUrl, title, category }) => {
+const ItemCard = ({ itemInfo }) => {
   const navigation = useNavigation();
+  const { imageUrl, itemName } = itemInfo;
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -20,21 +22,26 @@ const ItemCard = ({ imageUrl, title, category }) => {
         navigation.navigate('ItemStack', {
           screen: 'ItemInfo',
           params: {
-            title,
-            imageUrl,
-            category,
+            itemInfo,
           },
         })
       }
     >
       <View style={styles.imgContainer}>
-        <Image style={styles.image} source={{ uri: `${imageUrl}` }} />
+        <Image
+          style={[
+            styles.image,
+            {
+              height: width / 2 - 32,
+            },
+          ]}
+          source={{ uri: imageUrl }}
+        />
       </View>
-      <View style={styles.detailContainer}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {title}
+      <View style={styles.textContainer}>
+        <Text style={styles.itemName} numberOfLines={2} ellipsizeMode="tail">
+          {itemName}
         </Text>
-        <Text style={styles.category}>{category}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -43,36 +50,22 @@ const ItemCard = ({ imageUrl, title, category }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    width: width,
-    height: 96,
+    marginBottom: 16,
+    paddingHorizontal: 8,
   },
   imgContainer: {
+    alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 5,
+    marginBottom: 8,
   },
-  image: { height: 80, width: 80, borderRadius: 15 },
-  detailContainer: { justifyContent: 'center' },
-  title: {
-    fontFamily: 'SFPro-Text-Bold',
-    width: width - 144,
-    fontSize: 15,
-    color: '#2C2C2C',
-    marginBottom: 4,
-  },
-  category: {
-    fontFamily: 'SFPro-Text-Medium',
-    fontSize: 14,
-    color: '#AAA',
+  image: { width: '100%', borderRadius: 5 },
+  itemName: {
+    fontFamily: 'SFPro-Text-Regular',
+    fontSize: 12,
+    paddingRight: 32,
   },
 });
 

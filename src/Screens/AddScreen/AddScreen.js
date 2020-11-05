@@ -28,6 +28,14 @@ const Button = ({ iconName, title, description, onPress }) => {
 
 const AddScreen = ({ navigation }) => {
   const mountAnimValue = useRef(new Animated.Value(0)).current;
+
+  const unmountAnim = () => {
+    Animated.timing(mountAnimValue, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
   useEffect(() => {
     const mountAnim = () => {
       Animated.timing(mountAnimValue, {
@@ -45,7 +53,10 @@ const AddScreen = ({ navigation }) => {
       >
         <TouchableOpacity
           style={{ flex: 1 }}
-          onPress={() => navigation.pop()}
+          onPress={() => {
+            unmountAnim();
+            navigation.pop();
+          }}
         />
       </Animated.View>
       <SafeAreaView style={styles.modalContainer}>
@@ -61,7 +72,7 @@ const AddScreen = ({ navigation }) => {
           description="앨범 또는 카메라로부터 옷을 추가"
           onPress={() =>
             navigation.navigate('ItemStack', {
-              screen: 'ItemAddForm',
+              screen: 'ItemAddFormModal',
             })
           }
         />

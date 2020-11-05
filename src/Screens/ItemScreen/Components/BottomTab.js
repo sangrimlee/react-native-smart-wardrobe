@@ -37,7 +37,7 @@ const BottomTab = ({ onLike, onModify, onDelete }) => {
             name="pencil-outline"
             size={28}
             color="rgba(0,0,0,0.75)"
-            onPress={() => alert('modify')}
+            onPress={() => onModify()}
           />
           <VerticalDivider />
           <MaterialCommunityIcons
@@ -45,7 +45,7 @@ const BottomTab = ({ onLike, onModify, onDelete }) => {
             name="trash-can-outline"
             size={28}
             color="rgba(0,0,0,0.75)"
-            onPress={() => alert('delete')}
+            onPress={onDelete}
           />
         </View>
       </View>

@@ -1,61 +1,49 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Header } from "../Components";
-import Wardrobe from "./Wardrobe";
-
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { All, Outer, Top, Bottom, OnePiece } from './Wardrobe';
+import { TextHeader } from '../Components/Header';
 const Tab = createMaterialTopTabNavigator();
 
 const WardrobeScreen = () => {
   return (
     <View style={styles.container}>
-      <Header label="나의 옷장" />
+      <TextHeader label="나의 옷장" border />
       <View style={styles.wardrobeContainer}>
         <Tab.Navigator
-          initialRouteName="All"
+          initialRouteName="전체"
           tabBarOptions={{
             labelStyle: {
-              fontFamily: "SFPro-Text-Semibold",
-              textTransform: "capitalize",
+              fontFamily: 'SFPro-Text-Semibold',
               fontSize: 14,
-              shadowColor: "#2C2C2C",
-              shadowOffset: {
-                width: 0,
-                height: 0.5,
-              },
-              shadowOpacity: 0.05,
-              shadowRadius: 1.5,
-
-              elevation: 1,
             },
-            activeTintColor: "#2C2C2C",
-            inactiveTintColor: "#AAA",
+            activeTintColor: '#2C2C2C',
+            inactiveTintColor: 'rgba(0,0,0,0.3)',
 
             scrollEnabled: true,
             style: {
               height: 48,
               elevation: 0,
-              backgroundColor: "transparent",
+              backgroundColor: 'transparent',
+              borderBottomColor: 'rgba(0,0,0,0.1)',
+              borderBottomWidth: 1,
             },
+
             tabStyle: {
               width: 80,
+              marginBottom: 8,
             },
+
             indicatorStyle: {
-              width: 6,
-              height: 6,
-              borderRadius: 3,
-              backgroundColor: "#2C2C2C",
-              position: "relative",
-              left: 37,
-              top: 40,
+              backgroundColor: '#000',
             },
           }}
         >
-          <Tab.Screen name="전체" component={Wardrobe} />
-          <Tab.Screen name="아우터" component={Wardrobe} />
-          <Tab.Screen name="상의" component={Wardrobe} />
-          <Tab.Screen name="하의" component={Wardrobe} />
-          <Tab.Screen name="기타" component={Wardrobe} />
+          <Tab.Screen name="전체" component={All} />
+          <Tab.Screen name="아우터" component={Outer} />
+          <Tab.Screen name="상의" component={Top} />
+          <Tab.Screen name="하의" component={Bottom} />
+          <Tab.Screen name="원피스" component={OnePiece} />
         </Tab.Navigator>
       </View>
     </View>
@@ -65,6 +53,7 @@ const WardrobeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F9FAF9',
   },
   wardrobeContainer: {
     flex: 1,
