@@ -1,20 +1,28 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  Image,
   Dimensions,
   Animated,
   FlatList,
 } from 'react-native';
-import { SharedElement } from 'react-navigation-shared-element';
-import { BackHeader } from '../Components';
-import ItemCard from '../ItemScreen/ItemCard';
+import GestureView from '../Components/GestureView';
+import { ItemCard } from '../ItemScreen';
+
 const { width, height } = Dimensions.get('window');
 
 const ITEM_INFO = [
   {
+    id: 1,
+    imageUrl:
+      'http://slowsteadyclub.com/web/product/big/202010/47d33370e93f1b5e39007c3259af9d51.jpg',
+    itemName: 'D1002-1 GOOSE DOWN PARKA',
+    category: '아우터',
+    subCategory: '파카',
+  },
+  {
+    id: 2,
     imageUrl:
       'http://slowsteadyclub.com/web/product/big/202010/47d33370e93f1b5e39007c3259af9d51.jpg',
     itemName: 'D1002-1 GOOSE DOWN PARKA',
@@ -22,84 +30,91 @@ const ITEM_INFO = [
     subCategory: '파카',
   },
 ];
+
+const Header = () => {
+  return (
+    <View style={styles.headerContainer}>
+      <View style={styles.headerBar} />
+      <Text style={styles.headerTitle}>관련된 아이템</Text>
+    </View>
+  );
+};
 const RecommendationDetail = ({ route, navigation }) => {
   const { item } = route.params;
   const mountAnimValue = useRef(new Animated.Value(0)).current;
-
+  const mountAnim = () => {
+    Animated.timing(mountAnimValue, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: false,
+    }).start();
+  };
   const translateY = mountAnimValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [200, 0],
-  });
-  const scale = mountAnimValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1.2],
+    outputRange: [height * 0.5, 0],
   });
   useEffect(() => {
-    const mountAnim = () => {
-      Animated.timing(mountAnimValue, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
-    };
     mountAnim();
   }, []);
-
+  const renderItem = ({ item }) => <ItemCard itemInfo={item} />;
   return (
-    <View style={styles.container}>
-      <SharedElement style={[StyleSheet.absoluteFillObject]} id={item.imageUrl}>
-        <Image
-          source={{
-            uri: item.imageUrl,
-          }}
-          style={[styles.img]}
-        />
-      </SharedElement>
-      <BackHeader />
+    <GestureView onGesture={() => navigation.pop()}>
       <Animated.View
-        style={[
-          styles.bottomContainer,
-          {
-            opacity: mountAnimValue,
-            transform: [
-              {
-                translateY,
-              },
-            ],
-          },
-        ]}
+        style={[styles.container, { transform: [{ translateY }] }]}
       >
-        <Text style={styles.title}>아이템 리스트</Text>
-        <FlatList />
+        <View style={styles.topContainer} />
+        <View style={styles.bottomContainer}>
+          <Header />
+          <View style={styles.listContainer}>
+            <FlatList
+              data={ITEM_INFO}
+              keyExtractor={(item) => item.imageUrl}
+              renderItem={renderItem}
+              numColumns={2}
+            />
+          </View>
+        </View>
       </Animated.View>
-    </View>
+    </GestureView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
   },
-  img: {
-    ...StyleSheet.absoluteFillObject,
-    height: height * 0.65,
-    width: '100%',
+  topContainer: {
+    height: height * 0.5,
   },
   bottomContainer: {
-    backgroundColor: '#F2F2F2',
-    height: height * 0.45,
-    width: '100%',
-    paddingTop: 16,
-    paddingHorizontal: 16,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(0,0,0,0.1)',
+    height: height,
+    width: width,
+    backgroundColor: '#FFFEFF',
+    borderTopEndRadius: 15,
+    borderTopStartRadius: 15,
   },
-  title: {
-    fontFamily: 'SFPro-Text-Semibold',
-    fontSize: 24,
-    marginBottom: 16,
+  headerContainer: {
+    height: 80,
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+  },
+  headerBar: {
+    width: 40,
+    height: 5,
+    borderRadius: 5,
+    backgroundColor: '#DADBDA',
+    marginBottom: 24,
+  },
+  headerTitle: {
+    fontFamily: 'SFPro-Text-Medium',
+    fontSize: 18,
+  },
+  listContainer: {
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    height: '100%',
   },
 });
 

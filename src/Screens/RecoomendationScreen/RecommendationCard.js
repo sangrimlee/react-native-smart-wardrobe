@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { SharedElement } from 'react-navigation-shared-element';
@@ -19,12 +18,13 @@ const translateWidth = width * 0.1;
 
 const RecommendationCard = ({ item, index, scrollX }) => {
   const navigation = useNavigation();
-  const { imageUrl } = item;
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+
   const scale = scrollX.interpolate({
     inputRange,
     outputRange: [1.2, 1, 1.2],
   });
+
   const translateX = scrollX.interpolate({
     inputRange,
     outputRange: [-translateWidth, 16, 0],
@@ -33,14 +33,11 @@ const RecommendationCard = ({ item, index, scrollX }) => {
   return (
     <View style={[styles.container]}>
       <TouchableOpacity
-        onPress={() =>
-          navigation.push('RecommendationStack', {
-            screen: 'RecommendationDetail',
-            params: {
-              item: item,
-            },
-          })
-        }
+        onPress={() => {
+          navigation.push('RecommendationDetail', {
+            item: item,
+          });
+        }}
       >
         <Animated.View
           style={[
@@ -50,29 +47,26 @@ const RecommendationCard = ({ item, index, scrollX }) => {
             },
           ]}
         >
-          <SharedElement id={item.imageUrl}>
-            <Animated.Image
-              source={{ uri: `${imageUrl}` }}
-              style={[
-                styles.image,
-                {
-                  transform: [{ scale: scale }],
-                },
-              ]}
-            />
-          </SharedElement>
-          <LinearGradient
+          <Animated.Image
+            source={{ uri: item.imageUrl }}
+            style={[
+              styles.image,
+              {
+                transform: [{ scale: scale }],
+              },
+            ]}
+          />
+          {/* <LinearGradient
             // Background Linear Gradient
             colors={['transparent', 'transparent', 'rgba(0,0,0,0.8)']}
             style={styles.overlay}
-          />
-          <View style={styles.detailContainer}>
-            {/* <Text style={styles.id}>{instagramID}</Text> */}
+          /> */}
+          {/* <View style={styles.detailContainer}>
             <Text style={styles.detail}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.
             </Text>
-          </View>
+          </View> */}
         </Animated.View>
       </TouchableOpacity>
     </View>
@@ -98,6 +92,8 @@ const styles = StyleSheet.create({
     height: 360,
     borderRadius: 10,
     overflow: 'hidden',
+    borderWidth: 0.5,
+    borderColor: '#A9A9A9',
   },
   image: {
     width: cardWidth,
