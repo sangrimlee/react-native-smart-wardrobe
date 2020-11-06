@@ -6,30 +6,14 @@ import {
   RecommendationList,
   RecommendationDetail,
 } from '../Screens/RecoomendationScreen';
-const Stack = createSharedElementStackNavigator();
+const Stack = createStackNavigator();
 
 const RecommendationStack = () => {
   return (
-    <Stack.Navigator
-      headerMode="none"
-      screenOptions={{
-        gestureEnabled: false,
-      }}
-    >
-      <Stack.Screen name="RecommendationList" component={RecommendationList} />
+    <Stack.Navigator headerMode="none" mode="modal">
       <Stack.Screen
         name="RecommendationDetail"
         component={RecommendationDetail}
-        options={{
-          cardStyleInterpolator: ({ current }) => ({
-            cardStyle: { opacity: current.progress },
-          }),
-          gestureEnabled: false,
-        }}
-        sharedElementsConfig={(route, otherRoute, showing) => {
-          const { item } = route.params;
-          return [`${item.imageUrl}`];
-        }}
       />
     </Stack.Navigator>
   );

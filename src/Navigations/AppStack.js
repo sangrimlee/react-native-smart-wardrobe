@@ -8,7 +8,10 @@ import ItemStack from './ItemStack';
 import RecommendationStack from './RecommendationStack';
 import { LikeScreen } from '../Screens';
 import { ItemAddForm } from '../Screens/ItemScreen';
-const Stack = createStackNavigator();
+import RecommendationDetail from '../Screens/RecoomendationScreen/RecommendationDetail';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+
+const Stack = createSharedElementStackNavigator();
 
 const AppStack = () => {
   return (
@@ -35,8 +38,18 @@ const AppStack = () => {
         }}
       />
       <Stack.Screen
-        name="RecommendationStack"
-        component={RecommendationStack}
+        name="RecommendationDetail"
+        component={RecommendationDetail}
+        options={{
+          cardStyle: {
+            backgroundColor: 'transparent',
+          },
+          gestureDirection: 'vertical',
+        }}
+        sharedElementsConfig={(route, otherRoute, showing) => {
+          const { item } = route.params;
+          return [item.id];
+        }}
       />
     </Stack.Navigator>
   );

@@ -10,22 +10,29 @@ import {
   AddScreen,
 } from '../Screens';
 import RecommendationStack from './RecommendationStack';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TabBarIcon } from '../Components/Icon';
 const Tab = new createBottomTabNavigator();
 
 const Empty = () => {
   return <View />;
 };
 const AppNavigation = () => {
+  const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#FA6400',
-        inactiveTintColor: '#EAEAEA',
+        activeTintColor: '#262626',
+        inactiveTintColor: '#262626',
         showLabel: false,
         style: {
-          height: 88,
+          height: 48 + insets.bottom,
           elevation: 0,
+          borderTopWidth: 1,
+          borderTopColor: 'rgba(0,0,0,0.1)',
+          backgroundColor: '#F9FAF9',
+          justifyContent: 'flex-end',
+          paddingHorizontal: 16,
         },
       }}
     >
@@ -33,9 +40,12 @@ const AppNavigation = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: (props) => (
-            <Icon name="home" size={props.size} color={props.color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <TabBarIcon name="home-active" size={size} color={color} />
+            ) : (
+              <TabBarIcon name="home" size={size} color={color} />
+            ),
         }}
       />
 
@@ -43,9 +53,12 @@ const AppNavigation = () => {
         name="Wardrobe"
         component={WardrobeScreen}
         options={{
-          tabBarIcon: (props) => (
-            <Icon name="tshirt-crew" size={props.size} color={props.color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <TabBarIcon name="wardrobe-active" size={size} color={color} />
+            ) : (
+              <TabBarIcon name="wardrobe" size={size} color={color} />
+            ),
         }}
       />
 
@@ -53,9 +66,12 @@ const AppNavigation = () => {
         name="Add"
         component={Empty}
         options={{
-          tabBarIcon: (props) => (
-            <Icon name="plus-box" size={props.size} color={props.color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <TabBarIcon name="add-active" size={size} color={color} />
+            ) : (
+              <TabBarIcon name="add" size={size} color={color} />
+            ),
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
@@ -69,9 +85,12 @@ const AppNavigation = () => {
         name="Like"
         component={Empty}
         options={{
-          tabBarIcon: (props) => (
-            <Icon name="heart" size={props.size} color={props.color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <TabBarIcon name="heart-active" size={size} color={color} />
+            ) : (
+              <TabBarIcon name="heart" size={size} color={color} />
+            ),
         }}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
@@ -85,9 +104,12 @@ const AppNavigation = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: (props) => (
-            <Icon name="account" size={props.size} color={props.color} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            focused ? (
+              <TabBarIcon name="profile-active" size={size} color={color} />
+            ) : (
+              <TabBarIcon name="profile" size={size} color={color} />
+            ),
         }}
       />
     </Tab.Navigator>
