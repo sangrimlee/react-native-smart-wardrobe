@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TabBarIcon } from '../../Components/Icon';
 
 const { width, height } = Dimensions.get('window');
 
 const ItemCard = ({ itemInfo }) => {
   const navigation = useNavigation();
+  const [isLike, setIsLike] = useState(false);
   const { imageUrl, itemName } = itemInfo;
-
+  const handleLike = () => {
+    setIsLike(!isLike);
+  };
   return (
     <TouchableOpacity
       style={styles.container}
@@ -42,6 +46,12 @@ const ItemCard = ({ itemInfo }) => {
         <Text style={styles.itemName} numberOfLines={2} ellipsizeMode="tail">
           {itemName}
         </Text>
+        <TabBarIcon
+          name={isLike ? 'heart-active' : 'heart'}
+          size={20}
+          color="black"
+          onPress={() => handleLike()}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -62,10 +72,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   image: { width: '100%', borderRadius: 5 },
+  textContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 4,
+  },
   itemName: {
-    fontFamily: 'SFPro-Text-Regular',
-    fontSize: 12,
-    paddingRight: 32,
+    fontFamily: 'SFPro-Text-Light',
+    fontSize: 14,
   },
 });
 

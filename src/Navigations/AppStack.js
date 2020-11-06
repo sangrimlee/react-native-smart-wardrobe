@@ -5,20 +5,15 @@ import {
 } from '@react-navigation/stack';
 import AppNavigation from './AppNavigation';
 import ItemStack from './ItemStack';
-import RecommendationStack from './RecommendationStack';
 import { LikeScreen } from '../Screens';
 import { ItemAddForm } from '../Screens/ItemScreen';
 import RecommendationDetail from '../Screens/RecoomendationScreen/RecommendationDetail';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
-const Stack = createSharedElementStackNavigator();
+const Stack = createStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator
-      headerMode="none"
-      screenOptions={{ animationEnabled: true }}
-    >
+    <Stack.Navigator headerMode="none" initialRouteName="AppNavigation">
       <Stack.Screen name="AppNavigation" component={AppNavigation} />
       <Stack.Screen name="ItemStack" component={ItemStack} />
       <Stack.Screen
@@ -42,13 +37,14 @@ const AppStack = () => {
         component={RecommendationDetail}
         options={{
           cardStyle: {
-            backgroundColor: 'transparent',
+            backgroundColor: 'rgba(0,0,0,0.4)',
           },
           gestureDirection: 'vertical',
-        }}
-        sharedElementsConfig={(route, otherRoute, showing) => {
-          const { item } = route.params;
-          return [item.id];
+          cardStyleInterpolator: ({ current: { progress } }) => ({
+            cardStyle: {
+              opacity: progress,
+            },
+          }),
         }}
       />
     </Stack.Navigator>

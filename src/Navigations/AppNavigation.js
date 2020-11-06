@@ -1,15 +1,7 @@
 import React from 'react';
-import { SafeAreaView, View, Platform } from 'react-native';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
-import {
-  HomeScreen,
-  LikeScreen,
-  ProfileScreen,
-  WardrobeScreen,
-  AddScreen,
-} from '../Screens';
-import RecommendationStack from './RecommendationStack';
+import { HomeScreen, ProfileScreen, WardrobeScreen } from '../Screens';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TabBarIcon } from '../Components/Icon';
 const Tab = new createBottomTabNavigator();
