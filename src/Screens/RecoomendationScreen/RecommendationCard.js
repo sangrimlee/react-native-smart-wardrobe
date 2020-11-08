@@ -8,9 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { SharedElement } from 'react-navigation-shared-element';
 
 const { width, height } = Dimensions.get('window');
 const cardWidth = width * 0.8;

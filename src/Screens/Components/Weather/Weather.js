@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
-import axios from 'axios';
 import WeatherIcon from './WeatherIcon';
 import Constants from 'expo-constants';
-
-const APIKEY = '0e6c9e4a4f83a2de1c9cd06e11095a75';
+import { useDispatch, useSelector } from 'react-redux';
+import { getWeatherInfo } from '../../../store/actions/recommend';
 
 const Weather = () => {
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [weatherData, setWeatherData] = useState(null);
-  const [isLoading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
+  const { weatherInfo } = useSelector((state) => state.recommend);
+  const { loading } = useSelector((state) => state);
   useEffect(() => {
-    (async () => {
+    const getLocation = async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
       }
       let location = await Location.getCurrentPositionAsync({});
       let { latitude, longitude } = location.coords;
-      let weatherData = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lang=kr&units=metric&lat=${latitude}&lon=${longitude}&appid=${APIKEY}`,
-      );
-      setWeatherData(weatherData.data);
-      await setLoading(false);
-    })();
+      dispatch(getWeatherInfo({ latitude, longitude }));
+    };
+    getLocation();
   }, []);
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      {loading['recommend/GET_WEATHER_INFO'] !== false ? (
         <ActivityIndicator size="small" color="#AAA" />
       ) : (
         <View style={styles.weatherContainer}>
           <View style={styles.mainContainer}>
-            <WeatherIcon id={weatherData.weather[0].id} />
-            <Text style={styles.title}>
-              {Math.floor(weatherData.main.temp)}°
-            </Text>
+            <WeatherIcon id={weatherInfo.id} />
+            <Text style={styles.title}>{weatherInfo.temp}°</Text>
             <Text
               style={[
                 styles.title,
@@ -47,21 +40,17 @@ const Weather = () => {
               ellipsizeMode="tail"
               numberOfLines={1}
             >
-              {weatherData.weather[0].description}
+              {weatherInfo.description}
             </Text>
           </View>
           <View>
             <View style={styles.detailConatiner}>
               <Text style={styles.cat}>체감온도</Text>
-              <Text style={styles.detail}>
-                {Math.floor(weatherData.main.feels_like)} °
-              </Text>
+              <Text style={styles.detail}>{weatherInfo.feelTemp} °</Text>
             </View>
             <View style={styles.detailConatiner}>
               <Text style={styles.cat}>풍속</Text>
-              <Text style={styles.detail}>
-                {weatherData.wind.speed.toFixed(1)} m/s
-              </Text>
+              <Text style={styles.detail}>{weatherInfo.windSpeed} m/s</Text>
             </View>
           </View>
         </View>
