@@ -35,12 +35,11 @@ function* addItemSaga(action) {
     const response = yield call(api.addItemApi, userToken, itemInfo);
     if (response.data.status) {
       const { item } = response.data;
-      console.log('==========================');
-      console.log(item);
-      const newItemInfo = changeFormat(item);
-      console.log(newItemInfo);
-      console.log('==========================');
-
+      const newItemInfo = {
+        ...itemInfo,
+        id: item.id,
+        imageUrl: item.url,
+      };
       yield put({
         type: types.ADD_ITEM_SUCCESS,
         payload: { itemInfo: newItemInfo },
@@ -56,9 +55,9 @@ function* modifyItemSaga(action) {
   yield put(startLoading(types.MODIFY_ITEM));
   try {
     const { userToken, itemInfo } = action.payload;
-    const response = yield call(api.modifyItemApi, userToken, itemInfo);
+    yield call(api.modifyItemApi, userToken, itemInfo);
     const newItemInfo = changeModifiedFormat(itemInfo);
-
+    console.log(newItemInfo);
     yield put({
       type: types.MODIFY_ITEM_SUCCESS,
       payload: { itemInfo: newItemInfo },

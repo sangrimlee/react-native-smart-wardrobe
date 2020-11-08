@@ -86,17 +86,8 @@ export const modifyItemApi = (userToken, itemInfo) => {
     subcategoryNew: changeSubCategoryEN(newSubCategory),
     descript: description,
   };
-  var config = {
-    method: 'post',
-    url: 'http://3.21.245.113:8000/clothes/update',
-    headers: {
-      '': '',
-      'Content-Type': 'application/json',
-    },
-    data: JSON.stringify(data),
-  };
 
-  return axios(config);
+  return axios.post(BASE_URL + '/update', data);
 };
 
 export const removeItemApi = (userToken, itemInfo) => {

@@ -71,19 +71,15 @@ function* getUserInfoSaga(action) {
   yield put(finishLoading(types.GET_USER_INFO));
 }
 
-function* watchSignIn() {
+function* watchAuth() {
   yield takeLatest(types.SIGN_IN, signInSaga);
   yield takeLatest(types.SIGN_OUT, signOutSaga);
-}
-
-function* watchSignUp() {
   yield takeLatest(types.SIGN_UP, signUpSaga);
 }
-
 function* watchGetUserInfo() {
   yield takeEvery(types.GET_USER_INFO, getUserInfoSaga);
 }
 
 export default function* authSaga() {
-  yield all([fork(watchSignIn), fork(watchSignUp), fork(watchGetUserInfo)]);
+  yield all([fork(watchAuth), fork(watchGetUserInfo)]);
 }
