@@ -75,7 +75,7 @@ function* removeItemSaga(action) {
     const response = yield call(api.removeItemApi, userToken, itemInfo);
     yield put({
       type: types.REMOVE_ITEM_SUCCESS,
-      payload: { itemID: itemInfo.id },
+      payload: { itemInfo },
     });
   } catch (e) {
     yield put({ type: types.REMOVE_ITEM_FAILURE, payload: e, error: true });

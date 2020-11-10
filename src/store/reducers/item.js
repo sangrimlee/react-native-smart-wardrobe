@@ -19,7 +19,9 @@ const item = (state = initialState, action) => {
     case types.MODIFY_ITEM_SUCCESS:
       return produce(state, (draft) => {
         const index = draft.itemList.findIndex(
-          (item) => item.id === action.payload.itemInfo.id,
+          (item) =>
+            item.id === action.payload.itemInfo.id &&
+            item.subCategory === action.payload.itemInfo.subCategory,
         );
         draft.itemList[index] = action.payload.itemInfo;
       });
@@ -27,7 +29,9 @@ const item = (state = initialState, action) => {
       return produce(state, (draft) => {
         console.log(draft);
         const index = draft.itemList.findIndex(
-          (item) => item.id === action.payload.itemID,
+          (item) =>
+            item.id === action.payload.itemInfo.id &&
+            item.subCategory === action.payload.itemInfo.subCategory,
         );
         if (index !== -1) draft.itemList.splice(index, 1);
       });
