@@ -31,6 +31,9 @@ export const itemActionTypes = {
   MODIFY_ITEM: 'item/MODIFY_ITEM',
   MODIFY_ITEM_SUCCESS: 'item/MODIFY_ITEM_SUCCESS',
   MODIFY_ITEM_FAILURE: 'item/MODIFY_ITEM_FAILURE',
+  LIKE_ITEM: 'item/LIKE_ITEM',
+  LIKE_ITEM_SUCCESS: 'item/LIKE_ITEM_SUCCESS',
+  LIKE_ITEM_FAILURE: 'item/LIKE_ITEM_FAILURE',
 };
 
 export const recommendActionTypes = {

@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BackHeader } from '../Components';
 import { BottomTab } from './Components';
-import { removeItem } from '../../store/actions/item';
+import { removeItem, likeItem } from '../../store/actions/item';
 
 const { height } = Dimensions.get('window');
 
@@ -13,6 +13,7 @@ const ItemInfo = ({ route, navigation }) => {
   const { userToken } = useSelector((state) => state.auth);
 
   const {
+    id,
     itemName,
     imageUrl,
     category,
@@ -20,7 +21,13 @@ const ItemInfo = ({ route, navigation }) => {
     color,
     brand,
     description,
+    like,
   } = itemInfo;
+
+  const handleLike = () => {
+    dispatch(likeItem(userToken, { subCategory, category, id }));
+  };
+
   const handleModify = () => {
     navigation.navigate('ItemStack', {
       screen: 'ItemModifyForm',
@@ -29,10 +36,12 @@ const ItemInfo = ({ route, navigation }) => {
       },
     });
   };
+
   const handleDelete = () => {
     dispatch(removeItem(userToken, itemInfo));
     navigation.pop();
   };
+
   return (
     <View style={styles.container}>
       <View style={{ height: height * 0.5 }}>
@@ -52,7 +61,7 @@ const ItemInfo = ({ route, navigation }) => {
           {itemName}
         </Text>
         <Text style={styles.itemInfo}>
-          {brand} · {color}
+          {brand ? brand : '브랜드 없음'} · {color}
         </Text>
         <View style={styles.divider} />
         <Text style={styles.description}>
@@ -61,6 +70,14 @@ const ItemInfo = ({ route, navigation }) => {
       </View>
       <BackHeader />
       <BottomTab
+        like={like}
+        onRecommendation={() =>
+          navigation.navigate('ItemStack', {
+            screen: 'ItemRecommendation',
+            params: { color, subCategory },
+          })
+        }
+        onLike={() => handleLike()}
         onModify={() => handleModify()}
         onDelete={() => handleDelete()}
       />

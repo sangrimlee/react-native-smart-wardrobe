@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import * as Location from 'expo-location';
 import WeatherIcon from './WeatherIcon';
 import Constants from 'expo-constants';
@@ -10,17 +16,19 @@ const Weather = () => {
   const dispatch = useDispatch();
   const { weatherInfo } = useSelector((state) => state.recommend);
   const { loading } = useSelector((state) => state);
+
+  const getWeather = async () => {
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let { latitude, longitude } = location.coords;
+    dispatch(getWeatherInfo({ latitude, longitude }));
+  };
+
   useEffect(() => {
-    const getLocation = async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      let { latitude, longitude } = location.coords;
-      dispatch(getWeatherInfo({ latitude, longitude }));
-    };
-    getLocation();
+    getWeather();
   }, []);
 
   return (
@@ -28,7 +36,10 @@ const Weather = () => {
       {loading['recommend/GET_WEATHER_INFO'] !== false ? (
         <ActivityIndicator size="small" color="#AAA" />
       ) : (
-        <View style={styles.weatherContainer}>
+        <TouchableOpacity
+          onPress={() => getWeather()}
+          style={styles.weatherContainer}
+        >
           <View style={styles.mainContainer}>
             <WeatherIcon id={weatherInfo.id} />
             <Text style={styles.title}>{weatherInfo.temp}°</Text>
@@ -53,7 +64,7 @@ const Weather = () => {
               <Text style={styles.detail}>{weatherInfo.windSpeed} m/s</Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       )}
     </View>
   );

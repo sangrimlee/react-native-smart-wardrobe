@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Header, Weather } from '../Components';
+import { Weather } from '../Components';
 import { RecommendationScreen } from '../RecoomendationScreen';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Weather />

@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Text, FlatList, RefreshControl } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItems } from '../../store/actions/item';
 import ItemCard from './ItemCard';
-
+import { itemActionTypes as types } from '../../store/constants/ActionTypes';
 const wait = (timeout) => {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
@@ -17,7 +24,7 @@ const ItemList = ({ category }) => {
   const { itemList } = useSelector((state) => state.item);
   const { userToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const loading = useSelector((state) => state.loading);
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => {
@@ -55,7 +62,17 @@ const ItemList = ({ category }) => {
     }
     return <ItemCard itemInfo={item} numColumns={numColumns} />;
   };
-
+  if (
+    loading[types.ADD_ITEM] ||
+    loading[types.MODIFY_ITEM] ||
+    loading[types.REMOVE_ITEM]
+  ) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       {data.length ? (

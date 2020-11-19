@@ -25,6 +25,22 @@ const ITEM_INFO = [
     id: 2,
     imageUrl:
       'http://slowsteadyclub.com/web/product/big/202010/47d33370e93f1b5e39007c3259af9d51.jpg',
+    itemName: 'D1002-1 GOOSE DOWN PARKA PARKA',
+    category: '아우터',
+    subCategory: '파카',
+  },
+  {
+    id: 3,
+    imageUrl:
+      'http://slowsteadyclub.com/web/product/big/202010/47d33370e93f1b5e39007c3259af9d51.jpg',
+    itemName: 'D1002-1 GOOSE DOWN PARKA',
+    category: '아우터',
+    subCategory: '파카',
+  },
+  {
+    id: 4,
+    imageUrl:
+      'http://slowsteadyclub.com/web/product/big/202010/47d33370e93f1b5e39007c3259af9d51.jpg',
     itemName: 'D1002-1 GOOSE DOWN PARKA',
     category: '아우터',
     subCategory: '파카',
@@ -40,8 +56,9 @@ const Header = () => {
   );
 };
 const RecommendationDetail = ({ route, navigation }) => {
-  const { item } = route.params;
+  const { itemList } = route.params?.item;
   const mountAnimValue = useRef(new Animated.Value(0)).current;
+
   const mountAnim = () => {
     Animated.timing(mountAnimValue, {
       toValue: 1,
@@ -49,14 +66,20 @@ const RecommendationDetail = ({ route, navigation }) => {
       useNativeDriver: false,
     }).start();
   };
+
   const translateY = mountAnimValue.interpolate({
     inputRange: [0, 1],
     outputRange: [height * 0.5, 0],
   });
+
   useEffect(() => {
     mountAnim();
   }, []);
-  const renderItem = ({ item }) => <ItemCard itemInfo={item} />;
+
+  const renderItem = ({ item }) => {
+    return <ItemCard itemInfo={item} />;
+  };
+
   return (
     <GestureView onGesture={() => navigation.pop()}>
       <Animated.View
@@ -66,12 +89,18 @@ const RecommendationDetail = ({ route, navigation }) => {
         <View style={styles.bottomContainer}>
           <Header />
           <View style={styles.listContainer}>
-            <FlatList
-              data={ITEM_INFO}
-              keyExtractor={(item) => item.imageUrl}
-              renderItem={renderItem}
-              numColumns={2}
-            />
+            {itemList.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyTitle}>관련된 아이템이 없습니다.</Text>
+              </View>
+            ) : (
+              <FlatList
+                data={itemList}
+                keyExtractor={(item) => item.imageUrl}
+                renderItem={renderItem}
+                horizontal={true}
+              />
+            )}
           </View>
         </View>
       </Animated.View>
@@ -84,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    height: height * 0.5,
+    height: height * 0.55,
   },
   bottomContainer: {
     height: height,
@@ -115,6 +144,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 8,
     height: '100%',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyTitle: {
+    fontFamily: 'SFPro-Text-Light',
+    fontSize: 16,
   },
 });
 

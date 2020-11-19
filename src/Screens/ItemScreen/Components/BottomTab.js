@@ -14,22 +14,30 @@ const VerticalDivider = () => {
     />
   );
 };
-const BottomTab = ({ onLike, onModify, onDelete }) => {
+
+const BottomTab = ({ onRecommendation, onLike, onModify, onDelete, like }) => {
   const insets = useSafeAreaInsets();
-  const [like, setLike] = useState(false);
+  const [isLike, setIsLike] = useState(like);
+
   return (
     <View style={{ ...styles.container, height: 80 + insets.bottom }}>
       <View style={{ ...styles.tabContainer, marginBottom: insets.bottom }}>
-        <TouchableOpacity style={styles.btnContainer}>
+        <TouchableOpacity
+          style={styles.btnContainer}
+          onPress={onRecommendation}
+        >
           <Text style={{ fontSize: 16, color: 'white' }}>스타일 보기</Text>
         </TouchableOpacity>
         <View style={styles.iconContainer}>
           <MaterialCommunityIcons
             style={styles.icon}
-            name={like ? 'heart' : 'heart-outline'}
+            name={isLike ? 'heart' : 'heart-outline'}
             size={28}
-            color={like ? '#FA6400' : 'rgba(0,0,0,0.75)'}
-            onPress={() => setLike(!like)}
+            color={isLike ? 'black' : 'rgba(0,0,0,0.75)'}
+            onPress={() => {
+              onLike();
+              setIsLike(!isLike);
+            }}
           />
           <VerticalDivider />
           <MaterialCommunityIcons
@@ -45,7 +53,7 @@ const BottomTab = ({ onLike, onModify, onDelete }) => {
             name="trash-can-outline"
             size={28}
             color="rgba(0,0,0,0.75)"
-            onPress={onDelete}
+            onPress={() => onDelete()}
           />
         </View>
       </View>

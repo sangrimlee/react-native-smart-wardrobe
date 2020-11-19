@@ -4,17 +4,16 @@ import {
   TextInput,
   View,
   StyleSheet,
-  KeyboardAvoidingView,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { Formik } from 'formik';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { AddImageButton } from './Components';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../../store/actions/item';
 import { TextHeader } from '../Components/Header';
+import KeyboardAwareView from '../../Authentication/Components/KeyboardAwareView';
 
 const CustomTextInput = (props) => {
   const height = props.multiline ? 320 : 40;
@@ -31,7 +30,6 @@ const CustomTextInput = (props) => {
 };
 
 const ItemAddForm = ({ route, navigation }) => {
-  const insets = useSafeAreaInsets();
   const category = route.params?.category ?? '';
   const subCategory = route.params?.subCategory ?? '';
   const color = route.params?.color ?? '';
@@ -77,70 +75,71 @@ const ItemAddForm = ({ route, navigation }) => {
             handleLeft={() => navigation.pop()}
             handleRight={handleSubmit}
           />
-          <KeyboardAvoidingView
-            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-            style={styles.formContainer}
-          >
-            <AddImageButton
-              imageUrl={values.imageUrl}
-              onChangeImage={(value) => setFieldValue('imageUrl', value)}
-            />
-            <CustomTextInput
-              onChangeText={handleChange('itemName')}
-              value={values.itemName}
-              placeholder="옷 이름"
-            />
-            <View style={styles.pickerContainer}>
-              <TouchableOpacity
-                style={styles.picker}
-                onPress={() =>
-                  navigation.navigate('ItemStack', {
-                    screen: 'SelectCategory',
-                    params: {
-                      type: 'ADD',
-                    },
-                  })
-                }
-              >
-                <Text style={styles.pickerText}>
-                  {category ? `${category} > ${subCategory}` : '카테고리 선택'}
-                </Text>
-                <Ionicons name="ios-arrow-forward" size={16} color="black" />
-              </TouchableOpacity>
-            </View>
+          <KeyboardAwareView>
+            <View style={styles.formContainer}>
+              <AddImageButton
+                imageUrl={values.imageUrl}
+                onChangeImage={(value) => setFieldValue('imageUrl', value)}
+              />
+              <CustomTextInput
+                onChangeText={handleChange('itemName')}
+                value={values.itemName}
+                placeholder="옷 이름"
+              />
+              <View style={styles.pickerContainer}>
+                <TouchableOpacity
+                  style={styles.picker}
+                  onPress={() =>
+                    navigation.navigate('ItemStack', {
+                      screen: 'SelectCategory',
+                      params: {
+                        type: 'ADD',
+                      },
+                    })
+                  }
+                >
+                  <Text style={styles.pickerText}>
+                    {category
+                      ? `${category} > ${subCategory}`
+                      : '카테고리 선택'}
+                  </Text>
+                  <Ionicons name="ios-arrow-forward" size={16} color="black" />
+                </TouchableOpacity>
+              </View>
 
-            <View style={styles.pickerContainer}>
-              <TouchableOpacity
-                style={styles.picker}
-                onPress={() =>
-                  navigation.navigate('ItemStack', {
-                    screen: 'SelectColor',
-                    params: {
-                      type: 'ADD',
-                    },
-                  })
-                }
-              >
-                <Text style={styles.pickerText}>
-                  {color ? `${color}` : '색 선택'}
-                </Text>
-                <Ionicons name="ios-arrow-forward" size={16} color="black" />
-              </TouchableOpacity>
-            </View>
+              <View style={styles.pickerContainer}>
+                <TouchableOpacity
+                  style={styles.picker}
+                  onPress={() =>
+                    navigation.navigate('ItemStack', {
+                      screen: 'SelectColor',
+                      params: {
+                        type: 'ADD',
+                      },
+                    })
+                  }
+                >
+                  <Text style={styles.pickerText}>
+                    {color ? `${color}` : '색 선택'}
+                  </Text>
+                  <Ionicons name="ios-arrow-forward" size={16} color="black" />
+                </TouchableOpacity>
+              </View>
 
-            <CustomTextInput
-              onChangeText={handleChange('brand')}
-              value={values.brand}
-              placeholder="브랜드 (선택사항)"
-            />
-            <CustomTextInput
-              onChangeText={handleChange('description')}
-              value={values.description}
-              multiline
-              placeholder="옷에 대한 메모를 적어주세요. (선택사항, 최대 150자)"
-              maxLength={150}
-            />
-          </KeyboardAvoidingView>
+              <CustomTextInput
+                onChangeText={handleChange('brand')}
+                value={values.brand}
+                placeholder="브랜드 (선택사항)"
+              />
+              <CustomTextInput
+                onChangeText={handleChange('description')}
+                value={values.description}
+                multiline
+                placeholder="옷에 대한 메모를 적어주세요. (선택사항, 최대 150자)"
+                maxLength={150}
+              />
+            </View>
+          </KeyboardAwareView>
         </View>
       )}
     </Formik>

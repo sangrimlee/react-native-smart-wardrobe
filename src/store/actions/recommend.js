@@ -5,17 +5,11 @@ export const getWeatherInfo = (location) => ({
   payload: { location },
 });
 
-export const getRecommendationList = (
-  userToken,
-  feelTemp,
-  userStyle,
-  userGender,
-) => ({
+export const getRecommendationList = (userToken, feelTemp, userStyle) => ({
   type: types.GET_RECOMMENDATION_LIST,
   payload: {
     userToken,
     feelTemp,
     userStyle,
-    userGender,
   },
 });

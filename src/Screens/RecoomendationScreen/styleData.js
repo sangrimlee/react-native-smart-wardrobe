@@ -6,6 +6,11 @@ export default {
       imageUrl: 'https://i.ibb.co/ZxGtPYy/casual-man.jpg',
     },
     {
+      label: '캠퍼스',
+      style: 'campus',
+      imageUrl: 'https://i.ibb.co/Z6s7KxD/campus-man.jpg',
+    },
+    {
       label: '스트릿',
       style: 'street',
       imageUrl: 'https://i.ibb.co/gdg1FJ4/street-man.jpg',
@@ -45,11 +50,6 @@ export default {
       label: '여행',
       style: 'travel',
       imageUrl: 'https://i.ibb.co/TtB4h9L/travel-man.jpg',
-    },
-    {
-      label: '캠퍼스',
-      style: 'campus',
-      imageUrl: 'https://i.ibb.co/Z6s7KxD/campus-man.jpg',
     },
   ],
   female: [

@@ -9,16 +9,20 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TabBarIcon } from '../../Components/Icon';
+import { likeItem } from '../../store/actions/item';
+import { useDispatch, useSelector } from 'react-redux';
 
 const { width, height } = Dimensions.get('window');
 
-const ItemCard = ({ itemInfo }) => {
+const ItemCard = ({ cardWidth, itemInfo }) => {
   const navigation = useNavigation();
-  const [isLike, setIsLike] = useState(false);
-  const { imageUrl, itemName } = itemInfo;
+  const dispatch = useDispatch();
+  const { userToken } = useSelector((state) => state.auth);
+  const { imageUrl, itemName, like, subCategory, category, id } = itemInfo;
   const handleLike = () => {
-    setIsLike(!isLike);
+    dispatch(likeItem(userToken, { subCategory, category, id }));
   };
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -47,7 +51,7 @@ const ItemCard = ({ itemInfo }) => {
           {itemName}
         </Text>
         <TabBarIcon
-          name={isLike ? 'heart-active' : 'heart'}
+          name={like ? 'heart-active' : 'heart'}
           size={20}
           color="black"
           onPress={() => handleLike()}
@@ -62,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+    width: width / 2,
   },
   imgContainer: {
     alignItems: 'center',

@@ -7,6 +7,9 @@ import {
 } from './functions';
 const BASE_URL = 'http://3.21.245.113:8000/clothes';
 
+const file_format = (fileUri) => {
+  return fileUri.split('.').slice(-1)[0];
+};
 export const getItemsApi = (userToken) => {
   return axios.post(BASE_URL + '/get', { token: userToken });
 };
@@ -38,8 +41,9 @@ export const addItemApi = (userToken, itemInfo) => {
   } = itemInfo;
   const token = userToken.slice(0, 20);
   const date = `${Date.now()}`;
+  const format = file_format(imageUrl);
   uploadImage(token, date, imageUrl);
-  const newImageUrl = `https://smart-wardrobe.s3.ap-northeast-2.amazonaws.com/${token}/${date}.jpg`;
+  const newImageUrl = `https://smart-wardrobe.s3.ap-northeast-2.amazonaws.com/${token}/${date}.${format}`;
   const data = {
     token: userToken,
     name: itemName,
@@ -70,8 +74,9 @@ export const modifyItemApi = (userToken, itemInfo) => {
   if (!(imageUrl.slice(0, 4) == 'http')) {
     const token = userToken.slice(0, 20);
     const date = `${Date.now()}`;
+    const format = file_format(imageUrl);
     uploadImage(token, date, imageUrl);
-    imageUrl = `https://smart-wardrobe.s3.ap-northeast-2.amazonaws.com/${token}/${date}.jpg`;
+    imageUrl = `https://smart-wardrobe.s3.ap-northeast-2.amazonaws.com/${token}/${date}.${format}`;
   }
   const data = {
     token: userToken,
@@ -107,4 +112,15 @@ export const removeItemApi = (userToken, itemInfo) => {
     data: data,
   };
   return axios(config);
+};
+
+export const likeItemApi = (userToken, itemInfo) => {
+  const { id, category, subCategory } = itemInfo;
+  const data = {
+    token: userToken,
+    id: id,
+    category: changeCategoryEN(category),
+    subcategory: changeSubCategoryEN(subCategory),
+  };
+  return axios.post(BASE_URL + '/like', data);
 };

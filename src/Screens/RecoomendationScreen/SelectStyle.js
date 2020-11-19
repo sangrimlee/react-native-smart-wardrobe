@@ -22,7 +22,6 @@ const SelectStyle = () => {
 const styles = StyleSheet.create({
   container: {
     height: 360,
-    // backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -2,6 +2,7 @@ import { recommendActionTypes as types } from '../constants/ActionTypes';
 import { finishLoading, startLoading } from '../actions/loading';
 import { fork, all, call, put, takeLatest } from 'redux-saga/effects';
 import * as api from '../lib/recommendApi';
+import { changeFormatRecommendationList } from '../lib/functions';
 
 function* getWeatherInfoSaga(action) {
   yield put(startLoading(types.GET_WEATHER_INFO));
@@ -29,8 +30,30 @@ function* getWeatherInfoSaga(action) {
   yield put(finishLoading(types.GET_WEATHER_INFO));
 }
 
+function* getRecommendationListSaga(action) {
+  yield put(startLoading(types.GET_RECOMMENDATION_LIST));
+  try {
+    const { data } = yield call(api.getRecommendationListApi, action.payload);
+    const newRecommendationList = changeFormatRecommendationList(data);
+    console.log(newRecommendationList);
+    yield put({
+      type: types.GET_RECOMMENDATION_LIST_SUCCESS,
+      payload: {
+        recommendationList: newRecommendationList,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: types.GET_RECOMMENDATION_LIST_FAILURE,
+      payload: e,
+      error: true,
+    });
+  }
+  yield put(finishLoading(types.GET_RECOMMENDATION_LIST));
+}
 function* watchRecommend() {
   yield takeLatest(types.GET_WEATHER_INFO, getWeatherInfoSaga);
+  yield takeLatest(types.GET_RECOMMENDATION_LIST, getRecommendationListSaga);
 }
 
 export default function* recommendSaga() {

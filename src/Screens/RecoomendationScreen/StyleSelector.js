@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   listContainer: {
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
   },
   tabContainer: {
     height: 92,

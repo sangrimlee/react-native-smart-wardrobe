@@ -25,3 +25,11 @@ export const modifyItem = (userToken, itemInfo) => ({
     itemInfo,
   },
 });
+
+export const likeItem = (userToken, itemInfo) => ({
+  type: types.LIKE_ITEM,
+  payload: {
+    userToken,
+    itemInfo,
+  },
+});

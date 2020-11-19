@@ -16,9 +16,12 @@ const Routes = () => {
 
   useEffect(() => {
     const getToken = async () => {
-      let userToken = null;
+      // let userToken = null;
+      let userToken =
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InhoZHdoZmxhNTZAbmF2ZXIuY29tIiwia2V5IjoiMjA1MyJ9.N7fvKpQHp2aYW5I3SdhHCEhQaXOTqaSEue8kzElJ40E';
       try {
-        userToken = await AsyncStorage.getItem('userToken');
+        await AsyncStorage.setItem('userToken', userToken);
+        // userToken = await AsyncStorage.getItem('userToken');
         if (userToken) {
           dispatch(getUserInfo(userToken));
           dispatch(getItems(userToken));

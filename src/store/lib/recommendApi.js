@@ -9,17 +9,15 @@ export const getWeatherInfoApi = (location) => {
   );
 };
 
-export const getRecommendationList = (
+export const getRecommendationListApi = ({
   userToken,
   feelTemp,
   userStyle,
-  userGender,
-) => {
+}) => {
   const data = {
     token: userToken,
     temp: feelTemp,
-    userStyle,
-    userGender,
+    style: userStyle,
   };
   return axios.post('http://3.21.245.113:8000/coordi', data);
 };

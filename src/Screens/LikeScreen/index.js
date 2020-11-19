@@ -1,1 +1,1 @@
-export { default } from "./LikeScreen";
+export { default } from './LikeScreen';

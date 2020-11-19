@@ -23,6 +23,7 @@ const subCategoryEN = [
   'long skirt',
   'sweatpants',
   'chinos',
+  'jeans',
   'leggings',
   'short skirt',
   'shorts',
@@ -56,6 +57,7 @@ const subCategoryKR = [
   '롱 스커트',
   '스웻 팬츠',
   '치노 팬츠',
+  '청바지',
   '레깅스',
   '미니 스커트',
   '반바지',
@@ -81,9 +83,13 @@ const colorKR = [
   '그린',
   '올리브',
   '블루',
+  '네이비',
   '퍼플',
   '베이지',
   '브라운',
+  '연청',
+  '진청',
+  '중청',
 ];
 const colorEN = [
   'white',
@@ -99,9 +105,13 @@ const colorEN = [
   'green',
   'olive',
   'blue',
+  'navy',
   'purple',
   'beige',
   'brown',
+  'lightjean',
+  'darkjean',
+  'jean',
 ];
 export const changeCategoryKR = (category) => {
   const idx = categoryEN.indexOf(category);
@@ -139,6 +149,7 @@ export const changeFormat = (itemInfo) => {
     url,
     descript,
     brand,
+    like,
   } = itemInfo;
   return {
     id: id,
@@ -149,6 +160,7 @@ export const changeFormat = (itemInfo) => {
     imageUrl: url,
     brand: brand,
     description: descript,
+    like: like,
   };
 };
 
@@ -162,6 +174,7 @@ export const changeModifiedFormat = (itemInfo) => {
     brand,
     color,
     description,
+    like,
   } = itemInfo;
   return {
     id,
@@ -172,9 +185,22 @@ export const changeModifiedFormat = (itemInfo) => {
     imageUrl,
     brand,
     description,
+    like,
   };
 };
 
 export const changeFormatList = (itemList) => {
   return itemList.map((itemInfo) => changeFormat(itemInfo));
+};
+
+export const changeFormatRecommendationList = (recommendationList) => {
+  for (let i = 0; i < recommendationList.length; i++) {
+    recommendationList[i].itemList = recommendationList[i].itemList.filter(
+      (itemInfo) => typeof itemInfo === 'object',
+    );
+    recommendationList[i].itemList = recommendationList[
+      i
+    ].itemList.map((itemInfo) => changeFormat(itemInfo));
+  }
+  return recommendationList;
 };

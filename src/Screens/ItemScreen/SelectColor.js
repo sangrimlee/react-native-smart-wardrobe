@@ -25,6 +25,9 @@ const colordata = [
   '퍼플',
   '베이지',
   '브라운',
+  '연청',
+  '진청',
+  '중청',
 ];
 
 const Item = ({ color, onSelect }) => {

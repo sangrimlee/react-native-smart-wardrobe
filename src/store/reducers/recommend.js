@@ -2,7 +2,7 @@ import { recommendActionTypes as types } from '../constants/ActionTypes';
 
 export const initialState = {
   weatherInfo: {},
-  recommendationList: {},
+  recommendationList: [],
 };
 
 const auth = (state = initialState, action) => {

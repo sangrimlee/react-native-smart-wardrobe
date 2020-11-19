@@ -72,7 +72,7 @@ function* removeItemSaga(action) {
   yield put(startLoading(types.REMOVE_ITEM));
   try {
     const { userToken, itemInfo } = action.payload;
-    const response = yield call(api.removeItemApi, userToken, itemInfo);
+    yield call(api.removeItemApi, userToken, itemInfo);
     yield put({
       type: types.REMOVE_ITEM_SUCCESS,
       payload: { itemInfo },
@@ -83,11 +83,24 @@ function* removeItemSaga(action) {
   yield put(finishLoading(types.REMOVE_ITEM));
 }
 
+function* likeItemSaga(action) {
+  yield put(startLoading(types.LIKE_ITEM));
+  try {
+    const { userToken, itemInfo } = action.payload;
+    yield call(api.likeItemApi, userToken, itemInfo);
+    yield put({ type: types.LIKE_ITEM_SUCCESS, payload: { itemInfo } });
+  } catch (e) {
+    yield put({ type: types.LIKE_ITEM_FAILURE, payload: e, error: true });
+  }
+  yield put(finishLoading(types.LIKE_ITEM));
+}
+
 function* watchItem() {
   yield takeLatest(types.GET_ITEMS, getItemsSaga);
   yield takeLatest(types.ADD_ITEM, addItemSaga);
   yield takeLatest(types.MODIFY_ITEM, modifyItemSaga);
   yield takeLatest(types.REMOVE_ITEM, removeItemSaga);
+  yield takeLatest(types.LIKE_ITEM, likeItemSaga);
 }
 
 export default function* itemSaga() {

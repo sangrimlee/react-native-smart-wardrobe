@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#F9FAF9',
+    zIndex: 99,
   },
   headerContainer: {
     height: 48,

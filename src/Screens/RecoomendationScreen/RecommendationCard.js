@@ -45,7 +45,7 @@ const RecommendationCard = ({ item, index, scrollX }) => {
           ]}
         >
           <Animated.Image
-            source={{ uri: item.imageUrl }}
+            source={{ uri: item.recommendImageURL }}
             style={[
               styles.image,
               {
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     height: 360,
     borderRadius: 10,
     overflow: 'hidden',
-    borderWidth: 0.5,
-    borderColor: '#A9A9A9',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
   },
   image: {
     width: cardWidth,
